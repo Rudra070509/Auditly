@@ -2,8 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye, Mail, Phone, ChevronRight } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import Login from './Login';
+import CompanyProfile from './components/CompanyProfile';
+import Vision from './components/Vision';
+import ContactUs from './components/ContactUs';
 
 export default function App() {
+  const [activePage, setActivePage] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [file, setFile] = useState(null);
@@ -19,6 +23,18 @@ export default function App() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollToSection = (id) => {
+    setActivePage('home');
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        const offset = 60;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const onDrop = useCallback(acceptedFiles => {
@@ -104,11 +120,33 @@ export default function App() {
         </div>
         
         <div className="hidden md:flex space-x-4 text-sm font-medium">
-          <a href="#" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Home</a>
-          <a href="#simulator" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Test Simulator</a>
-          <a href="#features" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Features</a>
-          <a href="#how-it-works" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">How it Works</a>
-          <a href="#about" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">About</a>
+          <button onClick={() => { setActivePage('home'); scrollToTop(); }} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Home</button>
+          <button onClick={() => scrollToSection('simulator')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Test Simulator</button>
+          <button onClick={() => scrollToSection('features')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Features</button>
+          <button onClick={() => scrollToSection('how-it-works')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">How it Works</button>
+          <div className="relative group">
+            <button className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center gap-1.5 cursor-pointer">
+              About
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:rotate-180 transition-transform duration-300"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            
+            <div className="absolute top-full right-0 pt-3 w-72 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+              <div className="bg-white rounded-xl shadow-xl border border-slate-100 p-2 text-left">
+                <button onClick={() => { setActivePage('company'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                  <div className="font-semibold text-slate-800 text-sm mb-0.5">Company Profile</div>
+                  <div className="text-xs text-slate-500 leading-relaxed">Learn about our mission and the team behind Auditly.</div>
+                </button>
+                <button onClick={() => { setActivePage('vision'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                  <div className="font-semibold text-slate-800 text-sm mb-0.5">Our Vision</div>
+                  <div className="text-xs text-slate-500 leading-relaxed">How we're revolutionizing financial auditing with AI models.</div>
+                </button>
+                <button onClick={() => { setActivePage('contact'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                  <div className="font-semibold text-slate-800 text-sm mb-0.5">Contact Support</div>
+                  <div className="text-xs text-slate-500 leading-relaxed">Get in touch with our expert chartered accountants for assistance.</div>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center space-x-3">
@@ -124,8 +162,11 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Home Section */}
-      <section id="home" className="bg-slate-50 relative">
+      {/* Pages Container */}
+      {activePage === 'home' && (
+        <>
+          {/* Home Section */}
+          <section id="home" className="bg-slate-50 relative">
         
         {/* Hero Video Background */}
         <div className="text-slate-900 min-h-[85vh] flex flex-col items-center justify-center text-center relative px-8 pt-8 pb-28 overflow-hidden bg-white">
@@ -610,10 +651,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* About Section (CTA + Footer) */}
-      <div id="about" className="scroll-mt-0 min-h-[calc(100vh-76px)] flex flex-col">
-        {/* CTA Section */}
-        <section className="relative text-slate-900 py-32 text-center px-8 flex-grow flex flex-col justify-center overflow-hidden border-b border-slate-200">
+      {/* About Section (CTA) */}
+      <section id="about" className="relative text-slate-900 py-32 text-center px-8 flex-grow flex flex-col justify-center overflow-hidden border-b border-slate-200 scroll-mt-0 min-h-[calc(100vh-76px)]">
           
         {/* Ambient Gradient Background (Replaces heavy video for flawless performance) */}
         <div className="absolute inset-0 bg-slate-50 overflow-hidden z-0">
@@ -631,9 +670,15 @@ export default function App() {
             </p>
           </div>
         </section>
+        </>
+      )}
 
-        {/* Footer */}
-        <footer className="relative bg-[#070b14] text-slate-300 pt-20 pb-12 px-8 border-t border-slate-800 overflow-hidden">
+      {activePage === 'company' && <CompanyProfile />}
+      {activePage === 'vision' && <Vision />}
+      {activePage === 'contact' && <ContactUs />}
+
+      {/* Footer */}
+      <footer className="relative bg-[#070b14] text-slate-300 pt-20 pb-12 px-8 border-t border-slate-800 overflow-hidden mt-auto">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-blue-500/5 blur-[100px] pointer-events-none"></div>
@@ -694,10 +739,10 @@ export default function App() {
                 </a>
               </li>
               <li>
-                <a href="#features" className="group flex items-center text-slate-400 hover:text-white transition-colors">
+                <button onClick={() => scrollToSection('features')} className="group flex items-center text-slate-400 hover:text-white transition-colors w-full text-left">
                   <ChevronRight size={16} className="text-blue-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all mr-2" />
                   <span className="group-hover:translate-x-1 transition-transform">Features</span>
-                </a>
+                </button>
               </li>
               <li>
                 <button onClick={() => setShowLogin(true)} className="group flex items-center text-slate-400 hover:text-white transition-colors">
@@ -736,7 +781,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-      </div>
       {/* Scroll To Top Button */}
       <button 
         onClick={scrollToTop}
