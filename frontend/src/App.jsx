@@ -117,7 +117,7 @@ export default function App() {
               Sign Out
             </button>
           ) : (
-            <button onClick={() => setShowLogin(true)} className="bg-brand-blue text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
+            <button onClick={() => setShowLogin(true)} className="bg-[#0b1121] text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-900 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
               Login
             </button>
           )}
@@ -197,7 +197,7 @@ export default function App() {
               <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
                 Learn More
               </a>
-              <button onClick={() => setShowLogin(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
+              <button onClick={() => setShowLogin(true)} className="bg-[#0b1121] text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
                 Login
               </button>
               <a href="#simulator" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
