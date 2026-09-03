@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function ContactUs() {
   return (
-    <div className="bg-slate-50 pt-8 pb-8 px-8 flex-grow">
+    <div className="bg-slate-50 flex-grow flex flex-col justify-center px-8 py-4">
       <div className="max-w-5xl mx-auto w-full">
         <h1 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight text-center">Contact Support</h1>
         

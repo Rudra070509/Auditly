@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function CompanyProfile() {
   return (
-    <div className="bg-slate-50 pt-10 pb-12 px-8 flex-grow">
+    <div className="bg-slate-50 flex-grow flex flex-col justify-center px-8 py-4">
       <div className="max-w-5xl mx-auto w-full">
-        <h1 className="text-3xl font-extrabold text-slate-900 mb-6 tracking-tight">Company Profile</h1>
+        <h1 className="text-3xl font-extrabold text-slate-900 mb-6 tracking-tight text-center">Company Profile</h1>
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-slate-700 grid md:grid-cols-5 gap-8 items-center">
           <div className="md:col-span-3 space-y-4">
             <p className="text-base leading-relaxed">

@@ -5,6 +5,7 @@ import Login from './Login';
 import CompanyProfile from './components/CompanyProfile';
 import Vision from './components/Vision';
 import ContactUs from './components/ContactUs';
+import Dashboard from './components/Dashboard';
 
 export default function App() {
   const [activePage, setActivePage] = useState('home');
@@ -120,33 +121,42 @@ export default function App() {
         </div>
         
         <div className="hidden md:flex space-x-4 text-sm font-medium">
-          <button onClick={() => { setActivePage('home'); scrollToTop(); }} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Home</button>
-          <button onClick={() => scrollToSection('simulator')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Test Simulator</button>
-          <button onClick={() => scrollToSection('features')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Features</button>
-          <button onClick={() => scrollToSection('how-it-works')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">How it Works</button>
-          <div className="relative group">
-            <button className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center gap-1.5 cursor-pointer">
-              About
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:rotate-180 transition-transform duration-300"><path d="m6 9 6 6 6-6"/></svg>
+          {isLoggedIn ? (
+            <button className="px-5 py-2 rounded-full bg-blue-50 border border-blue-100 text-brand-blue font-bold shadow-sm flex items-center space-x-2">
+              <BarChart2 size={16} />
+              <span>Dashboard</span>
             </button>
-            
-            <div className="absolute top-full right-0 pt-3 w-72 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-              <div className="bg-white rounded-xl shadow-xl border border-slate-100 p-2 text-left">
-                <button onClick={() => { setActivePage('company'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                  <div className="font-semibold text-slate-800 text-sm mb-0.5">Company Profile</div>
-                  <div className="text-xs text-slate-500 leading-relaxed">Learn about our mission and the team behind Auditly.</div>
+          ) : (
+            <>
+              <button onClick={() => { setActivePage('home'); scrollToTop(); }} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Home</button>
+              <button onClick={() => scrollToSection('simulator')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Test Simulator</button>
+              <button onClick={() => scrollToSection('features')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Features</button>
+              <button onClick={() => scrollToSection('how-it-works')} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">How it Works</button>
+              <div className="relative group">
+                <button className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center gap-1.5 cursor-pointer">
+                  About
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:rotate-180 transition-transform duration-300"><path d="m6 9 6 6 6-6"/></svg>
                 </button>
-                <button onClick={() => { setActivePage('vision'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                  <div className="font-semibold text-slate-800 text-sm mb-0.5">Our Vision</div>
-                  <div className="text-xs text-slate-500 leading-relaxed">How we're revolutionizing financial auditing with AI models.</div>
-                </button>
-                <button onClick={() => { setActivePage('contact'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                  <div className="font-semibold text-slate-800 text-sm mb-0.5">Contact Support</div>
-                  <div className="text-xs text-slate-500 leading-relaxed">Get in touch with our expert chartered accountants for assistance.</div>
-                </button>
+                
+                <div className="absolute top-full right-0 pt-3 w-72 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                  <div className="bg-white rounded-xl shadow-xl border border-slate-100 p-2 text-left">
+                    <button onClick={() => { setActivePage('company'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                      <div className="font-semibold text-slate-800 text-sm mb-0.5">Company Profile</div>
+                      <div className="text-xs text-slate-500 leading-relaxed">Learn about our mission and the team behind Auditly.</div>
+                    </button>
+                    <button onClick={() => { setActivePage('vision'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                      <div className="font-semibold text-slate-800 text-sm mb-0.5">Our Vision</div>
+                      <div className="text-xs text-slate-500 leading-relaxed">How we're revolutionizing financial auditing with AI models.</div>
+                    </button>
+                    <button onClick={() => { setActivePage('contact'); scrollToTop(); }} className="w-full text-left block p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                      <div className="font-semibold text-slate-800 text-sm mb-0.5">Contact Support</div>
+                      <div className="text-xs text-slate-500 leading-relaxed">Get in touch with our expert chartered accountants for assistance.</div>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
 
         <div className="flex items-center space-x-3">
@@ -200,45 +210,13 @@ export default function App() {
           </div>
 
           {isLoggedIn ? (
-            <div className="w-full max-w-3xl mx-auto z-10 relative">
-              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-2 shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-                <div 
-                  {...getRootProps()} 
-                  className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
-                    isDragActive ? 'border-brand-blue bg-blue-50/50' : 'border-slate-300 bg-white/50 hover:bg-slate-50 hover:border-brand-blue'
-                  }`}
-                >
-                  <input {...getInputProps()} />
-                  <div className="flex justify-center mb-2">
-                    <div className="bg-blue-100 p-2 rounded-full text-brand-blue">
-                      <UploadCloud size={24} strokeWidth={1.5} />
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-1">
-                    {isDragActive ? "Drop ledger here..." : "Upload Client Ledger to Begin"}
-                  </h3>
-                  <p className="text-slate-500 text-xs mb-3 max-w-md mx-auto">
-                    Drag and drop your Excel or CSV transaction export here, or click to browse files.
-                  </p>
-                  <button className="bg-brand-blue text-white px-6 py-2 rounded-lg font-medium text-xs hover:bg-blue-700 transition-colors shadow-md pointer-events-none">
-                    Browse Files
-                  </button>
-                  
-                  {file && (
-                    <div className="mt-3 flex items-center justify-center space-x-2 text-xs font-medium text-green-600 bg-green-50 py-1.5 px-3 rounded-lg inline-flex">
-                      <CheckCircle size={14} />
-                      <span>{file.name} ready for scan</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+            <Dashboard />
           ) : (
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 z-10 relative mt-4">
               <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
                 Learn More
               </a>
-              <button onClick={() => setShowLogin(true)} className="bg-[#0b1121] text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
+              <button onClick={() => setShowLogin(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
                 Login
               </button>
               <a href="#simulator" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
@@ -250,46 +228,48 @@ export default function App() {
         </div>
 
         {/* Floating Stats */}
-        <div className="w-full max-w-5xl mx-auto px-8 -mt-20 mb-8 relative z-20">
-          <div className="bg-black rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-800">
-            <div className="bg-slate-900/50 px-6 py-2.5 border-b border-slate-700 flex items-center space-x-2 text-xs font-mono text-slate-400">
-              <div className="flex space-x-1.5 mr-4">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              </div>
-              <span>audit-anomaly-scan-engine // active</span>
-              <div className="ml-auto flex items-center space-x-2 text-green-400 border border-green-500/30 bg-green-500/10 px-2 py-0.5 rounded">
-                <CheckCircle size={12} />
-                <span>Live Analysis</span>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-700 p-6">
-              <div className="px-6 py-2">
-                <div className="text-slate-400 text-xs font-medium mb-1">Flagged Transactions</div>
-                <div className="text-3xl font-bold mb-1">127</div>
-                <div className="flex items-center text-red-400 text-xs font-medium">
-                  <ShieldAlert size={12} className="mr-1.5" /> High priority items
+        {!isLoggedIn && (
+          <>
+          <div className="w-full max-w-5xl mx-auto px-8 -mt-20 mb-8 relative z-20">
+            <div className="bg-black rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-800">
+              <div className="bg-slate-900/50 px-6 py-2.5 border-b border-slate-700 flex items-center space-x-2 text-xs font-mono text-slate-400">
+                <div className="flex space-x-1.5 mr-4">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                </div>
+                <span>audit-anomaly-scan-engine // active</span>
+                <div className="ml-auto flex items-center space-x-2 text-green-400 border border-green-500/30 bg-green-500/10 px-2 py-0.5 rounded">
+                  <CheckCircle size={12} />
+                  <span>Live Analysis</span>
                 </div>
               </div>
-              <div className="px-6 py-2">
-                <div className="text-slate-400 text-xs font-medium mb-1">Confidence Score</div>
-                <div className="text-3xl font-bold mb-1">99.4%</div>
-                <div className="flex items-center text-green-400 text-xs font-medium">
-                  <CheckCircle size={12} className="mr-1.5" /> Statistical validation
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-700 p-6">
+                <div className="px-6 py-2">
+                  <div className="text-slate-400 text-xs font-medium mb-1">Flagged Transactions</div>
+                  <div className="text-3xl font-bold mb-1">127</div>
+                  <div className="flex items-center text-red-400 text-xs font-medium">
+                    <ShieldAlert size={12} className="mr-1.5" /> High priority items
+                  </div>
                 </div>
-              </div>
-              <div className="px-6 py-2">
-                <div className="text-slate-400 text-xs font-medium mb-1">Audit Time Saved</div>
-                <div className="text-3xl font-bold mb-1">6+ h</div>
-                <div className="flex items-center text-blue-400 text-xs font-medium">
-                  <Zap size={12} className="mr-1.5" /> Fast closing cycle
+                <div className="px-6 py-2">
+                  <div className="text-slate-400 text-xs font-medium mb-1">Confidence Score</div>
+                  <div className="text-3xl font-bold mb-1">99.4%</div>
+                  <div className="flex items-center text-green-400 text-xs font-medium">
+                    <CheckCircle size={12} className="mr-1.5" /> Statistical validation
+                  </div>
+                </div>
+                <div className="px-6 py-2">
+                  <div className="text-slate-400 text-xs font-medium mb-1">Audit Time Saved</div>
+                  <div className="text-3xl font-bold mb-1">6+ h</div>
+                  <div className="flex items-center text-blue-400 text-xs font-medium">
+                    <Zap size={12} className="mr-1.5" /> Fast closing cycle
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
         {/* 4-Column Stats Section (Now integrated into the video background) */}
         <div className="relative z-10 max-w-6xl mx-auto px-8 py-8 mb-4">
@@ -316,8 +296,12 @@ export default function App() {
             </div>
           </div>
         </div>
+        </>
+      )}
       </section>
 
+      {!isLoggedIn && (
+        <>
       {/* Simulator Section */}
       <section id="simulator" className="scroll-mt-[76px] bg-[#0b1121] py-20 text-white border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-8">
@@ -672,16 +656,19 @@ export default function App() {
         </section>
         </>
       )}
+      </>
+      )}
 
       {activePage === 'company' && <CompanyProfile />}
       {activePage === 'vision' && <Vision />}
       {activePage === 'contact' && <ContactUs />}
 
       {/* Footer */}
-      <footer className="relative bg-[#070b14] text-slate-300 pt-20 pb-12 px-8 border-t border-slate-800 overflow-hidden mt-auto">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-blue-500/5 blur-[100px] pointer-events-none"></div>
+      {(activePage === 'home' && !isLoggedIn) && (
+        <footer className="relative bg-[#070b14] text-slate-300 pt-20 pb-12 px-8 border-t border-slate-800 mt-auto">
+          {/* Subtle background glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-blue-500/5 blur-[100px] pointer-events-none"></div>
 
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 relative z-10">
           {/* Contact Us */}
@@ -781,6 +768,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      )}
       {/* Scroll To Top Button */}
       <button 
         onClick={scrollToTop}

@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function Vision() {
   return (
-    <div className="min-h-[70vh] bg-slate-50 pt-10 pb-24 px-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-slate-900 mb-8 tracking-tight">Our Vision</h1>
+    <div className="bg-slate-50 flex-grow flex flex-col justify-center px-8 py-4">
+      <div className="max-w-4xl mx-auto w-full">
+        <h1 className="text-4xl font-extrabold text-slate-900 mb-8 tracking-tight text-center">Our Vision</h1>
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12 text-slate-700 leading-relaxed space-y-6">
           <p className="text-xl font-medium text-blue-600 mb-4">
             "To build a future where financial transparency is absolute, effortless, and instantaneous."
