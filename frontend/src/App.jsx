@@ -119,15 +119,20 @@ export default function App() {
       {/* Home Section */}
       <section id="home" className="bg-slate-50 relative">
         
-        {/* Hero Image Background */}
-        <div 
-          className="bg-brand-blue text-white min-h-[85vh] flex flex-col items-center justify-center text-center relative px-8 pt-8 pb-28 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/assets/hero_bg.jpg')" }}
-        >
-          {/* Overlay to ensure text readability if needed (optional) */}
-          <div className="absolute inset-0 bg-black/10 z-0"></div>
+        {/* Hero Video Background */}
+        <div className="text-slate-900 min-h-[85vh] flex flex-col items-center justify-center text-center relative px-8 pt-8 pb-28 overflow-hidden bg-white">
+          {/* Terranova Animated Background Video */}
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline 
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02]"
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
+          ></video>
 
-          <div className="inline-flex items-center space-x-2.5 bg-white/5 border border-white/20 rounded-full px-5 py-1.5 text-[13px] font-medium text-white mb-6 backdrop-blur-sm z-10">
+          <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-[13px] font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
             <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
             <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
           </div>
@@ -137,10 +142,10 @@ export default function App() {
           </h1>
           
           <div className="text-center z-10 mb-12 flex flex-col space-y-1">
-            <p className="text-lg md:text-xl text-blue-100 font-light">
+            <p className="text-lg md:text-xl text-slate-700 font-light">
               AI-Powered Financial Audit Anomaly Detection.
             </p>
-            <p className="text-lg md:text-xl text-blue-100 font-light">
+            <p className="text-lg md:text-xl text-slate-700 font-light">
               Detect suspicious patterns. Audit smarter. Close faster.
             </p>
           </div>
@@ -181,13 +186,13 @@ export default function App() {
             </div>
           ) : (
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 z-10 relative mt-4">
-              <a href="#features" className="border-2 border-white text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
+              <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
                 Learn More
               </a>
-              <button onClick={() => setIsLoggedIn(true)} className="bg-white text-brand-blue font-bold px-8 py-3.5 rounded-lg border-2 border-white hover:bg-blue-50 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
+              <button onClick={() => setIsLoggedIn(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
                 Login
               </button>
-              <a href="#simulator" className="border-2 border-white text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
+              <a href="#simulator" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
                 <Play size={18} fill="currentColor" />
                 <span>Test Simulator</span>
               </a>
@@ -197,7 +202,7 @@ export default function App() {
 
         {/* Floating Stats */}
         <div className="w-full max-w-5xl mx-auto px-8 -mt-20 mb-16 relative z-20">
-          <div className="bg-slate-900 rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-700">
+          <div className="bg-black rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-800">
             <div className="bg-slate-900/50 px-6 py-2.5 border-b border-slate-700 flex items-center space-x-2 text-xs font-mono text-slate-400">
               <div className="flex space-x-1.5 mr-4">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
