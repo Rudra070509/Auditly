@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye } from 'lucide-react';
+import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye, Mail, Phone, ChevronRight } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import Login from './Login';
 
@@ -633,39 +633,106 @@ export default function App() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-slate-900 text-slate-400 py-16 px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 text-white mb-6">
-              <div className="bg-white p-1 rounded min-w-max text-brand-blue">
-                <BarChart2 size={20} strokeWidth={2.5} />
-              </div>
-              <span className="text-xl font-bold tracking-tight">Auditly</span>
-            </div>
-            <p className="text-sm max-w-sm leading-relaxed mb-6">
-              AI-powered financial audit anomaly detection for Chartered Accountants.
-            </p>
-            <div className="text-xs text-slate-500">
-              Shri Bhagubhai Mafatlal Polytechnic<br />
-              SVKM
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Navigation</h4>
-            <ul className="space-y-3 text-sm">
-              <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#how-it-works" className="hover:text-white transition-colors">How it Works</a></li>
-              <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
+        <footer className="relative bg-[#070b14] text-slate-300 pt-20 pb-12 px-8 border-t border-slate-800 overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-24 bg-blue-500/5 blur-[100px] pointer-events-none"></div>
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 relative z-10">
+          {/* Contact Us */}
+          <div className="space-y-6">
+            <h4 className="text-white font-bold tracking-widest text-sm flex items-center gap-2">
+              <span className="w-8 h-px bg-blue-500"></span> CONTACT US
+            </h4>
+            <ul className="space-y-6 text-sm">
+              <li className="flex items-start gap-4 group">
+                <div className="mt-1 p-2 rounded-lg bg-slate-800/50 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                  <Mail size={18} />
+                </div>
+                <div>
+                  <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">Email Address</div>
+                  <a href="mailto:info@auditly.local" className="text-slate-300 hover:text-blue-400 font-medium transition-colors text-base">info@auditly.local</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-4 group">
+                <div className="mt-1 p-2 rounded-lg bg-slate-800/50 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                  <Phone size={18} />
+                </div>
+                <div>
+                  <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">Phone Number</div>
+                  <a href="tel:+919876543210" className="text-slate-300 hover:text-blue-400 font-medium transition-colors text-base">+91 98765 43210</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-4 group">
+                <div className="mt-1 p-2 rounded-lg bg-slate-800/50 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                  <Phone size={18} />
+                </div>
+                <div>
+                  <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">Toll Free</div>
+                  <a href="tel:18001234567" className="text-slate-300 hover:text-blue-400 font-medium transition-colors text-base">1800 123 4567</a>
+                </div>
+              </li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Contact & Demo</h4>
-            <ul className="space-y-3 text-sm">
-              <li><a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">Get Demo</a></li>
-              <li><a href="mailto:info@auditly.local" className="hover:text-white transition-colors">info@auditly.local</a></li>
+          {/* Quick Links */}
+          <div className="md:mx-auto space-y-6">
+            <h4 className="text-white font-bold tracking-widest text-sm flex items-center gap-2">
+              <span className="w-8 h-px bg-blue-500"></span> QUICK LINKS
+            </h4>
+            <ul className="space-y-4 text-base font-medium">
+              <li>
+                <a href="#home" className="group flex items-center text-slate-400 hover:text-white transition-colors">
+                  <ChevronRight size={16} className="text-blue-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all mr-2" />
+                  <span className="group-hover:translate-x-1 transition-transform">Home</span>
+                </a>
+              </li>
+              <li>
+                <a href="#about" className="group flex items-center text-slate-400 hover:text-white transition-colors">
+                  <ChevronRight size={16} className="text-blue-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all mr-2" />
+                  <span className="group-hover:translate-x-1 transition-transform">About</span>
+                </a>
+              </li>
+              <li>
+                <a href="#features" className="group flex items-center text-slate-400 hover:text-white transition-colors">
+                  <ChevronRight size={16} className="text-blue-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all mr-2" />
+                  <span className="group-hover:translate-x-1 transition-transform">Features</span>
+                </a>
+              </li>
+              <li>
+                <button onClick={() => setShowLogin(true)} className="group flex items-center text-slate-400 hover:text-white transition-colors">
+                  <ChevronRight size={16} className="text-blue-500 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all mr-2" />
+                  <span className="group-hover:translate-x-1 transition-transform">Login</span>
+                </button>
+              </li>
             </ul>
+          </div>
+
+          {/* Follow Us */}
+          <div className="md:ml-auto space-y-6">
+            <h4 className="text-white font-bold tracking-widest text-sm flex items-center gap-2">
+              <span className="w-8 h-px bg-blue-500"></span> FOLLOW US
+            </h4>
+            <div className="flex flex-col space-y-4">
+              <a href="#" className="group flex items-center gap-4 text-slate-400 hover:text-white transition-all hover:translate-x-2">
+                <div className="w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center group-hover:bg-gradient-to-tr from-pink-500 to-orange-400 group-hover:text-white transition-all shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </div>
+                <span className="font-semibold tracking-wide">Instagram</span>
+              </a>
+              <a href="#" className="group flex items-center gap-4 text-slate-400 hover:text-white transition-all hover:translate-x-2">
+                <div className="w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center group-hover:bg-[#0A66C2] group-hover:text-white transition-all shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </div>
+                <span className="font-semibold tracking-wide">LinkedIn</span>
+              </a>
+              <a href="#" className="group flex items-center gap-4 text-slate-400 hover:text-white transition-all hover:translate-x-2">
+                <div className="w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </div>
+                <span className="font-semibold tracking-wide">GitHub</span>
+              </a>
+            </div>
           </div>
         </div>
       </footer>
