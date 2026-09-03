@@ -1,18 +1,64 @@
 import React, { useState } from 'react';
-import { BarChart2, UserPlus, EyeOff, ChevronDown, LogIn } from 'lucide-react';
+import { BarChart2, UserPlus, EyeOff, Eye, ChevronDown, LogIn } from 'lucide-react';
 import { useGoogleLogin } from '@react-oauth/google';
 import loginBg from './assets/login_bg.jpg';
 
 export default function Login({ setIsLoggedIn, setShowLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleStandardLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    const endpoint = isSignUp ? '/api/auth/register' : '/api/auth/login';
+    
+    try {
+      const res = await fetch(`http://localhost:3000${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok) {
+        console.log("Logged in user:", data.user);
+        setIsLoggedIn(true);
+        setShowLogin(false);
+      } else {
+        setError(data.error || 'Authentication failed');
+      }
+    } catch (err) {
+      setError('Error connecting to server');
+    }
+  };
 
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      console.log("Google Auth Success:", codeResponse);
-      setIsLoggedIn(true);
-      setShowLogin(false);
+    onSuccess: async (codeResponse) => {
+      try {
+        const res = await fetch('http://localhost:3000/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ access_token: codeResponse.access_token }),
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          console.log("Logged in user:", data.user);
+          setIsLoggedIn(true);
+          setShowLogin(false);
+        } else {
+          setError("Google authentication failed");
+        }
+      } catch (err) {
+        setError("Error connecting to server");
+      }
     },
-    onError: (error) => console.log('Google Login Failed:', error)
+    onError: (error) => setError('Google Login Failed')
   });
 
   return (
@@ -43,7 +89,10 @@ export default function Login({ setIsLoggedIn, setShowLogin }) {
           </div>
           <button 
             type="button" 
-            onClick={() => setIsSignUp(!isSignUp)}
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError('');
+            }}
             className="flex items-center space-x-2 text-slate-600 hover:text-slate-900 font-medium text-sm transition-colors"
           >
             {isSignUp ? <LogIn size={18} strokeWidth={2} /> : <UserPlus size={18} strokeWidth={2} />}
@@ -57,28 +106,42 @@ export default function Login({ setIsLoggedIn, setShowLogin }) {
             {isSignUp ? 'Create Account' : 'Sign In'}
           </h2>
           
-          <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsLoggedIn(true); setShowLogin(false); }}>
+          <form className="space-y-4" onSubmit={handleStandardLogin}>
+            
+            {error && (
+              <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm font-medium border border-red-100">
+                {error}
+              </div>
+            )}
             
             {/* Input fields */}
             <div className="space-y-3">
               <div className="relative">
                 <input 
-                  type="text" 
+                  type="email" 
                   required
-                  placeholder="Email or Username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address"
                   className="w-full bg-transparent border border-slate-200 rounded-full px-5 py-3 text-slate-900 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/50 transition-all placeholder:text-slate-400 text-sm font-medium"
                 />
               </div>
               
               <div className="relative">
                 <input 
-                  type="password" 
+                  type={showPassword ? "text" : "password"}
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   className="w-full bg-transparent border border-slate-200 rounded-full px-5 py-3 text-slate-900 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/50 transition-all placeholder:text-slate-400 text-sm font-medium pr-10"
                 />
-                <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
-                  <EyeOff size={18} strokeWidth={2} />
+                <button 
+                  type="button" 
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showPassword ? <Eye size={18} strokeWidth={2} /> : <EyeOff size={18} strokeWidth={2} />}
                 </button>
               </div>
             </div>
