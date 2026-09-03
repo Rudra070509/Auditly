@@ -23,3 +23,12 @@
     transform: translateY(0);
   }
 }
+
+.animate-scan-bounce {
+  animation: scanBounce 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes scanBounce {
+  0% { left: 0%; }
+  100% { left: 66.666%; }
+}

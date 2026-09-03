@@ -3,6 +3,7 @@ import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, 
 import { useDropzone } from 'react-dropzone';
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [file, setFile] = useState(null);
 
   const onDrop = useCallback(acceptedFiles => {
@@ -15,24 +16,49 @@ export default function App() {
   const [scanProgress, setScanProgress] = useState(0);
   const [scanComplete, setScanComplete] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
+  const [scanText, setScanText] = useState("System ready. Waiting to begin scan.");
+
+  const scanPhrases = [
+    "Initializing AIM 2.0 Engine...",
+    "Extracting raw ledger entries...",
+    "Cross-referencing GSTR-2B datasets...",
+    "Applying anomaly detection heuristics...",
+    "Isolating high-risk vouchers...",
+    "Generating XAI explainability logs..."
+  ];
 
   const startScan = () => {
-    if (isScanning) return;
+    if (isScanning || scanComplete) return;
     setIsScanning(true);
     setScanProgress(0);
     setScanComplete(false);
+    setScanText(scanPhrases[0]);
     
     const interval = setInterval(() => {
       setScanProgress(prev => {
-        if (prev >= 100) {
+        const next = prev + 1.2;
+        if (next >= 100) {
           clearInterval(interval);
           setIsScanning(false);
           setScanComplete(true);
+          setScanText("Analysis Complete: Anomalies isolated with XAI reasoning generated.");
           return 100;
         }
-        return prev + 5;
+        
+        const phraseIndex = Math.floor((next / 100) * scanPhrases.length);
+        setScanText(scanPhrases[Math.min(phraseIndex, scanPhrases.length - 1)]);
+        
+        return next;
       });
-    }, 100);
+    }, 50); // Total time: ~4.1 seconds
+  };
+
+  const resetScan = () => {
+    setIsScanning(false);
+    setScanProgress(0);
+    setScanComplete(false);
+    setActiveFilter('All');
+    setScanText("System ready. Waiting to begin scan.");
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -64,9 +90,17 @@ export default function App() {
           <a href="#about" className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">About</a>
         </div>
 
-        <button className="bg-white text-brand-blue px-5 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
-          Get Demo
-        </button>
+        <div className="flex items-center space-x-3">
+          {isLoggedIn ? (
+            <button onClick={() => setIsLoggedIn(false)} className="bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
+              Sign Out
+            </button>
+          ) : (
+            <button onClick={() => setIsLoggedIn(true)} className="bg-brand-blue text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
+              Login
+            </button>
+          )}
+        </div>
       </nav>
 
       {/* Home Section */}
@@ -79,53 +113,72 @@ export default function App() {
             <div className="absolute w-[800px] h-[800px] bg-white rounded-full blur-3xl -top-96 left-1/2 -translate-x-1/2" />
           </div>
 
-          <div className="inline-flex items-center space-x-2 bg-blue-800/50 border border-blue-700/50 rounded-full px-4 py-1.5 text-xs font-medium mb-4 backdrop-blur-sm z-10">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+          <div className="inline-flex items-center space-x-2.5 bg-white/5 border border-white/20 rounded-full px-5 py-1.5 text-[13px] font-medium text-white mb-6 backdrop-blur-sm z-10">
+            <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
             <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-[100px] font-extrabold tracking-normal leading-none mb-4 z-10">
+          <h1 className="text-8xl md:text-[130px] font-extrabold tracking-tight leading-none mb-6 z-10">
             Auditly.
           </h1>
           
-          <p className="text-base md:text-[17px] text-blue-100 max-w-4xl mb-5 font-light z-10">
-            AI-Powered Financial Audit Anomaly Detection. Audit smarter, close faster.
-          </p>
+          <div className="text-center z-10 mb-12 flex flex-col space-y-1">
+            <p className="text-lg md:text-xl text-blue-100 font-light">
+              AI-Powered Financial Audit Anomaly Detection.
+            </p>
+            <p className="text-lg md:text-xl text-blue-100 font-light">
+              Detect suspicious patterns. Audit smarter. Close faster.
+            </p>
+          </div>
 
-          {/* File Upload / Import Design Zone */}
-          <div className="w-full max-w-3xl mx-auto z-10 relative">
-            <div className="bg-white rounded-2xl p-2 shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-              <div 
-                {...getRootProps()} 
-                className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
-                  isDragActive ? 'border-brand-blue bg-blue-50' : 'border-slate-700 bg-gray-50/50 hover:bg-gray-50 hover:border-brand-blue'
-                }`}
-              >
-                <input {...getInputProps()} />
-                <div className="flex justify-center mb-2">
-                  <div className="bg-blue-100 p-2 rounded-full text-brand-blue">
-                    <UploadCloud size={24} strokeWidth={1.5} />
+          {isLoggedIn ? (
+            <div className="w-full max-w-3xl mx-auto z-10 relative">
+              <div className="bg-white rounded-2xl p-2 shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                <div 
+                  {...getRootProps()} 
+                  className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
+                    isDragActive ? 'border-brand-blue bg-blue-50' : 'border-slate-700 bg-gray-50/50 hover:bg-gray-50 hover:border-brand-blue'
+                  }`}
+                >
+                  <input {...getInputProps()} />
+                  <div className="flex justify-center mb-2">
+                    <div className="bg-blue-100 p-2 rounded-full text-brand-blue">
+                      <UploadCloud size={24} strokeWidth={1.5} />
+                    </div>
                   </div>
+                  <h3 className="text-lg font-bold text-slate-800 mb-1">
+                    {isDragActive ? "Drop ledger here..." : "Upload Client Ledger to Begin"}
+                  </h3>
+                  <p className="text-slate-500 text-xs mb-3 max-w-md mx-auto">
+                    Drag and drop your Excel or CSV transaction export here, or click to browse files.
+                  </p>
+                  <button className="bg-brand-blue text-white px-6 py-2 rounded-lg font-medium text-xs hover:bg-blue-700 transition-colors shadow-md pointer-events-none">
+                    Browse Files
+                  </button>
+                  
+                  {file && (
+                    <div className="mt-3 flex items-center justify-center space-x-2 text-xs font-medium text-green-600 bg-green-50 py-1.5 px-3 rounded-lg inline-flex">
+                      <CheckCircle size={14} />
+                      <span>{file.name} ready for scan</span>
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-lg font-bold text-slate-800 mb-1">
-                  {isDragActive ? "Drop ledger here..." : "Upload Client Ledger to Begin"}
-                </h3>
-                <p className="text-slate-500 text-xs mb-3 max-w-md mx-auto">
-                  Drag and drop your Excel or CSV transaction export here, or click to browse files.
-                </p>
-                <button className="bg-brand-blue text-white px-6 py-2 rounded-lg font-medium text-xs hover:bg-blue-700 transition-colors shadow-md pointer-events-none">
-                  Browse Files
-                </button>
-                
-                {file && (
-                  <div className="mt-3 flex items-center justify-center space-x-2 text-xs font-medium text-green-600 bg-green-50 py-1.5 px-3 rounded-lg inline-flex">
-                    <CheckCircle size={14} />
-                    <span>{file.name} ready for scan</span>
-                  </div>
-                )}
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 z-10 relative mt-4">
+              <a href="#features" className="border-2 border-white text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
+                Learn More
+              </a>
+              <button onClick={() => setIsLoggedIn(true)} className="bg-white text-brand-blue font-bold px-8 py-3.5 rounded-lg border-2 border-white hover:bg-blue-50 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
+                Login
+              </button>
+              <a href="#simulator" className="border-2 border-white text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
+                <Play size={18} fill="currentColor" />
+                <span>Test Simulator</span>
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Floating Stats */}
@@ -220,13 +273,23 @@ export default function App() {
               <select className="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg px-4 py-2.5 outline-none focus:border-brand-blue appearance-none pr-8 relative cursor-pointer">
                 <option>Apex Manufacturing Pvt Ltd (FY23-24)</option>
               </select>
-              <button 
-                onClick={startScan}
-                className={`px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors shadow-lg shadow-blue-500/20 flex items-center space-x-2 ${isScanning ? 'bg-slate-600 cursor-not-allowed opacity-80' : 'bg-brand-blue hover:bg-blue-600 text-white'}`}
-              >
-                <Zap size={16} className={isScanning ? "animate-pulse" : ""} />
-                <span>{isScanning ? 'Scanning...' : scanComplete ? 'Scan Complete' : 'Run Anomaly Scan'}</span>
-              </button>
+              <div className="flex space-x-3">
+                {scanComplete && (
+                  <button 
+                    onClick={resetScan}
+                    className="px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700"
+                  >
+                    Clear Scan
+                  </button>
+                )}
+                <button 
+                  onClick={startScan}
+                  className={`px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors shadow-lg shadow-blue-500/20 flex items-center space-x-2 ${isScanning ? 'bg-slate-600 cursor-not-allowed opacity-80' : 'bg-brand-blue hover:bg-blue-600 text-white'}`}
+                >
+                  <Zap size={16} className={isScanning ? "animate-pulse" : ""} />
+                  <span>{isScanning ? 'Scanning...' : scanComplete ? 'Re-run Scan' : 'Run Anomaly Scan'}</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -237,14 +300,20 @@ export default function App() {
               <div className="flex justify-between items-center mb-3">
                 <div className={`flex items-center space-x-2 text-xs ${scanComplete ? 'text-green-400' : isScanning ? 'text-blue-400' : 'text-slate-400'}`}>
                   <div className={`w-2 h-2 rounded-full ${scanComplete ? 'bg-green-400' : isScanning ? 'bg-blue-400 animate-pulse' : 'bg-slate-600'}`} />
-                  <span>{scanComplete ? 'Analysis Complete: Anomalies isolated with XAI reasoning generated.' : isScanning ? 'Analyzing financial patterns and cross-referencing ledgers...' : 'System ready. Waiting to begin scan.'}</span>
+                  <span>{scanText}</span>
                 </div>
                 <div className={`text-xs font-mono tracking-wider ${scanComplete ? 'text-green-400' : 'text-blue-400'}`}>
-                  {isScanning || scanComplete ? `Scanning: ${scanProgress}%` : 'Standby'}
+                  {isScanning || scanComplete ? `Scanning: ${Math.floor(scanProgress)}%` : 'Standby'}
                 </div>
               </div>
-              <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-blue-500 h-full transition-all duration-100 ease-linear" style={{ width: `${scanProgress}%` }} />
+              <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden relative">
+                {scanComplete ? (
+                  <div className="bg-blue-500 w-full h-full transition-all duration-300" />
+                ) : isScanning ? (
+                  <div className="bg-blue-500 h-full absolute w-1/3 rounded-full animate-scan-bounce" />
+                ) : (
+                  <div className="bg-blue-500 w-0 h-full" />
+                )}
               </div>
             </div>
 
