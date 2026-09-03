@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import { BarChart2, UserPlus, EyeOff, ChevronDown, LogIn } from 'lucide-react';
+import { useGoogleLogin } from '@react-oauth/google';
 import loginBg from './assets/login_bg.jpg';
 
 export default function Login({ setIsLoggedIn, setShowLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log("Google Auth Success:", codeResponse);
+      setIsLoggedIn(true);
+      setShowLogin(false);
+    },
+    onError: (error) => console.log('Google Login Failed:', error)
+  });
 
   return (
     <div className="h-screen w-full flex items-center justify-center font-sans selection:bg-orange-500 selection:text-white bg-slate-100 p-4 md:p-6 lg:p-8 overflow-hidden">
@@ -94,7 +104,11 @@ export default function Login({ setIsLoggedIn, setShowLogin }) {
               <div className="flex-grow border-t border-slate-200"></div>
             </div>
 
-            <button type="button" className="w-full bg-white border border-slate-200 text-slate-700 font-medium py-3 rounded-full hover:bg-slate-50 transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm">
+            <button 
+              type="button" 
+              onClick={() => handleGoogleLogin()}
+              className="w-full bg-white border border-slate-200 text-slate-700 font-medium py-3 rounded-full hover:bg-slate-50 transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm"
+            >
               <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
                 <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
                   <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/>
