@@ -247,24 +247,24 @@ export default function App() {
               
               <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-700 p-6">
                 <div className="px-6 py-2">
-                  <div className="text-slate-400 text-xs font-medium mb-1">Flagged Transactions</div>
-                  <div className="text-3xl font-bold mb-1">127</div>
-                  <div className="flex items-center text-red-400 text-xs font-medium">
-                    <ShieldAlert size={12} className="mr-1.5" /> High priority items
-                  </div>
-                </div>
-                <div className="px-6 py-2">
-                  <div className="text-slate-400 text-xs font-medium mb-1">Confidence Score</div>
-                  <div className="text-3xl font-bold mb-1">99.4%</div>
-                  <div className="flex items-center text-green-400 text-xs font-medium">
-                    <CheckCircle size={12} className="mr-1.5" /> Statistical validation
-                  </div>
-                </div>
-                <div className="px-6 py-2">
-                  <div className="text-slate-400 text-xs font-medium mb-1">Audit Time Saved</div>
-                  <div className="text-3xl font-bold mb-1">6+ h</div>
+                  <div className="text-slate-400 text-xs font-medium mb-1">System Status</div>
+                  <div className="text-3xl font-bold mb-1">Active</div>
                   <div className="flex items-center text-blue-400 text-xs font-medium">
-                    <Zap size={12} className="mr-1.5" /> Fast closing cycle
+                    <ShieldAlert size={12} className="mr-1.5" /> Ready for ledger data
+                  </div>
+                </div>
+                <div className="px-6 py-2">
+                  <div className="text-slate-400 text-xs font-medium mb-1">Pattern Recognition</div>
+                  <div className="text-3xl font-bold mb-1">Enabled</div>
+                  <div className="flex items-center text-green-400 text-xs font-medium">
+                    <CheckCircle size={12} className="mr-1.5" /> ML models initialized
+                  </div>
+                </div>
+                <div className="px-6 py-2">
+                  <div className="text-slate-400 text-xs font-medium mb-1">Analysis Mode</div>
+                  <div className="text-3xl font-bold mb-1">Real-time</div>
+                  <div className="flex items-center text-yellow-400 text-xs font-medium">
+                    <Zap size={12} className="mr-1.5" /> High throughput ready
                   </div>
                 </div>
               </div>
