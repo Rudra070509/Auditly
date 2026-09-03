@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
+import Login from './Login';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [file, setFile] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -59,14 +61,16 @@ export default function App() {
         }
         
         const phraseIndex = Math.floor((next / 100) * scanPhrases.length);
-        setScanText(scanPhrases[Math.min(phraseIndex, scanPhrases.length - 1)]);
-        
+        if (scanPhrases[phraseIndex]) {
+          setScanText(scanPhrases[phraseIndex]);
+        }
         return next;
       });
     }, 50); // Total time: ~4.1 seconds
   };
 
   const resetScan = () => {
+    setFile(null);
     setIsScanning(false);
     setScanProgress(0);
     setScanComplete(false);
@@ -83,6 +87,10 @@ export default function App() {
     maxFiles: 1
   });
 
+  if (showLogin) {
+    return <Login setIsLoggedIn={setIsLoggedIn} setShowLogin={setShowLogin} />;
+  }
+
   return (
     <div className="min-h-screen font-sans selection:bg-brand-blue selection:text-white">
       {/* Top Navbar */}
@@ -92,7 +100,7 @@ export default function App() {
           <div className="bg-white p-1.5 rounded-lg text-brand-blue shadow-sm border border-slate-100">
             <BarChart2 size={24} strokeWidth={2.5} />
           </div>
-          <span className="text-2xl font-bold tracking-tight">Auditly</span>
+          <span className="text-3xl font-bold tracking-tight" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>Auditly</span>
         </div>
         
         <div className="hidden md:flex space-x-4 text-sm font-medium">
@@ -105,11 +113,11 @@ export default function App() {
 
         <div className="flex items-center space-x-3">
           {isLoggedIn ? (
-            <button onClick={() => setIsLoggedIn(false)} className="bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
+            <button onClick={() => { setIsLoggedIn(false); setShowLogin(false); }} className="bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
               Sign Out
             </button>
           ) : (
-            <button onClick={() => setIsLoggedIn(true)} className="bg-brand-blue text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
+            <button onClick={() => setShowLogin(true)} className="bg-brand-blue text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
               Login
             </button>
           )}
@@ -128,35 +136,35 @@ export default function App() {
             loop 
             playsInline 
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02]"
+            className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02] transform-gpu will-change-[filter,transform]"
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
           ></video>
 
-          <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-[13px] font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
+          <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-sm font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
             <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
             <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
           </div>
 
-          <h1 className="text-8xl md:text-[130px] font-extrabold tracking-tight leading-none mb-6 z-10">
+          <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-6 z-10" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
             Auditly.
           </h1>
           
           <div className="text-center z-10 mb-12 flex flex-col space-y-1">
-            <p className="text-lg md:text-xl text-slate-700 font-light">
+            <p className="text-xl md:text-2xl text-slate-700 font-medium">
               AI-Powered Financial Audit Anomaly Detection.
             </p>
-            <p className="text-lg md:text-xl text-slate-700 font-light">
+            <p className="text-xl md:text-2xl text-slate-700 font-medium">
               Detect suspicious patterns. Audit smarter. Close faster.
             </p>
           </div>
 
           {isLoggedIn ? (
             <div className="w-full max-w-3xl mx-auto z-10 relative">
-              <div className="bg-white rounded-2xl p-2 shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-2 shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                 <div 
                   {...getRootProps()} 
                   className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 ${
-                    isDragActive ? 'border-brand-blue bg-blue-50' : 'border-slate-700 bg-gray-50/50 hover:bg-gray-50 hover:border-brand-blue'
+                    isDragActive ? 'border-brand-blue bg-blue-50/50' : 'border-slate-300 bg-white/50 hover:bg-slate-50 hover:border-brand-blue'
                   }`}
                 >
                   <input {...getInputProps()} />
@@ -189,7 +197,7 @@ export default function App() {
               <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
                 Learn More
               </a>
-              <button onClick={() => setIsLoggedIn(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
+              <button onClick={() => setShowLogin(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
                 Login
               </button>
               <a href="#simulator" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
@@ -201,7 +209,7 @@ export default function App() {
         </div>
 
         {/* Floating Stats */}
-        <div className="w-full max-w-5xl mx-auto px-8 -mt-20 mb-16 relative z-20">
+        <div className="w-full max-w-5xl mx-auto px-8 -mt-20 mb-8 relative z-20">
           <div className="bg-black rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-800">
             <div className="bg-slate-900/50 px-6 py-2.5 border-b border-slate-700 flex items-center space-x-2 text-xs font-mono text-slate-400">
               <div className="flex space-x-1.5 mr-4">
@@ -242,31 +250,28 @@ export default function App() {
           </div>
         </div>
 
-      </section>
-
-      {/* 4-Column Stats Section */}
-      <section className="bg-white py-16 border-b border-slate-100 relative z-10">
-        <div className="max-w-6xl mx-auto px-8">
+        {/* 4-Column Stats Section (Now integrated into the video background) */}
+        <div className="relative z-10 max-w-6xl mx-auto px-8 py-8 mb-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-brand-blue mb-2">10K+</div>
-              <div className="text-slate-800 font-semibold text-sm mb-1">Transactions Analyzed</div>
-              <div className="text-slate-400 text-xs">Across multiple financial ledgers</div>
+              <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2 drop-shadow-sm">10K+</div>
+              <div className="text-slate-800 font-bold text-sm mb-1 drop-shadow-sm">Transactions Analyzed</div>
+              <div className="text-slate-600 font-medium text-xs">Across multiple ledgers</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-brand-blue mb-2">2-3m</div>
-              <div className="text-slate-800 font-semibold text-sm mb-1">Processing Time</div>
-              <div className="text-slate-400 text-xs">From raw ledger to audit report</div>
+              <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2 drop-shadow-sm">2-3m</div>
+              <div className="text-slate-800 font-bold text-sm mb-1 drop-shadow-sm">Processing Time</div>
+              <div className="text-slate-600 font-medium text-xs">From raw ledger to report</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-brand-blue mb-2">127</div>
-              <div className="text-slate-800 font-semibold text-sm mb-1">Anomalies Detected</div>
-              <div className="text-slate-400 text-xs">With clear explainability logs</div>
+              <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2 drop-shadow-sm">127</div>
+              <div className="text-slate-800 font-bold text-sm mb-1 drop-shadow-sm">Anomalies Detected</div>
+              <div className="text-slate-600 font-medium text-xs">With clear explainability</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-brand-blue mb-2">6+h</div>
-              <div className="text-slate-800 font-semibold text-sm mb-1">Time Saved</div>
-              <div className="text-slate-400 text-xs">Average savings per audit engagement</div>
+              <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2 drop-shadow-sm">6+h</div>
+              <div className="text-slate-800 font-bold text-sm mb-1 drop-shadow-sm">Time Saved</div>
+              <div className="text-slate-600 font-medium text-xs">Average savings per audit</div>
             </div>
           </div>
         </div>
@@ -556,19 +561,19 @@ export default function App() {
       </section>
 
       {/* Workflow / How it Works */}
-      <section id="how-it-works" className="scroll-mt-[76px] min-h-[calc(100vh-76px)] flex flex-col justify-center py-12 bg-white">
+      <section id="how-it-works" className="scroll-mt-[76px] min-h-[calc(100vh-76px)] flex flex-col justify-center py-12 bg-[#0b1121] border-b border-slate-800">
         <div className="max-w-5xl mx-auto px-8 text-center w-full">
-          <div className="text-brand-blue text-sm font-bold tracking-widest uppercase mb-2">Workflow</div>
-          <h2 className="text-3xl font-bold text-slate-800 mb-4">How It Works</h2>
-          <p className="text-slate-500 mb-16">Streamline your entire audit pipeline in three rapid stages.</p>
+          <div className="text-brand-blue text-base font-bold tracking-widest uppercase mb-2">Workflow</div>
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">How It Works</h2>
+          <p className="text-lg md:text-xl text-slate-400 mb-16 max-w-2xl mx-auto font-medium">Streamline your entire audit pipeline in three rapid stages.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {/* Connecting line for desktop */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-blue-100 -translate-y-1/2 z-0" />
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-white -translate-y-1/2 z-0" />
 
             {/* Step 1 */}
             <div className="bg-white border border-slate-100 p-8 rounded-2xl shadow-sm relative z-10 flex flex-col items-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer">
-              <div className="w-16 h-16 bg-brand-blue text-white text-2xl font-bold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
+              <div className="w-16 h-16 bg-[#0b1121] text-white text-2xl font-bold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
                 1
               </div>
               <h3 className="text-xl font-bold text-slate-800 mb-3">Upload Data</h3>
@@ -579,8 +584,8 @@ export default function App() {
             </div>
 
             {/* Step 2 */}
-            <div className="bg-white border border-slate-100 p-8 rounded-2xl shadow-lg relative z-10 flex flex-col items-center transform md:-translate-y-4 hover:shadow-xl hover:-translate-y-6 transition-all duration-300 cursor-pointer">
-              <div className="w-16 h-16 bg-brand-blue text-white text-2xl font-bold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
+            <div className="bg-white border border-slate-100 p-8 rounded-2xl shadow-lg relative z-10 flex flex-col items-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer">
+              <div className="w-16 h-16 bg-[#0b1121] text-white text-2xl font-bold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
                 2
               </div>
               <h3 className="text-xl font-bold text-slate-800 mb-3">AI Analysis</h3>
@@ -592,7 +597,7 @@ export default function App() {
 
             {/* Step 3 */}
             <div className="bg-white border border-slate-100 p-8 rounded-2xl shadow-sm relative z-10 flex flex-col items-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer">
-              <div className="w-16 h-16 bg-brand-blue text-white text-2xl font-bold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
+              <div className="w-16 h-16 bg-[#0b1121] text-white text-2xl font-bold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
                 3
               </div>
               <h3 className="text-xl font-bold text-slate-800 mb-3">Risk Report</h3>
@@ -606,18 +611,24 @@ export default function App() {
       </section>
 
       {/* About Section (CTA + Footer) */}
-      <div id="about" className="scroll-mt-[76px] min-h-[calc(100vh-76px)] flex flex-col">
+      <div id="about" className="scroll-mt-0 min-h-[calc(100vh-76px)] flex flex-col">
         {/* CTA Section */}
-        <section className="bg-brand-blue text-white py-24 text-center px-8 flex-grow flex flex-col justify-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Revolutionize Your Financial Auditing?</h2>
-          <p className="text-blue-100 mb-10 max-w-2xl mx-auto text-lg">
-            Empower your practice with real-time anomaly detection and deep transaction insights today.
-          </p>
-          <div>
-            <button className="bg-white text-brand-blue px-8 py-3.5 rounded-lg font-bold hover:bg-blue-50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-xl inline-flex items-center space-x-2 cursor-pointer">
-              <span>Request Demo</span>
-              <ArrowRight size={18} />
-            </button>
+        <section className="relative text-slate-900 py-32 text-center px-8 flex-grow flex flex-col justify-center overflow-hidden border-b border-slate-200">
+          
+        {/* Ambient Gradient Background (Replaces heavy video for flawless performance) */}
+        <div className="absolute inset-0 bg-slate-50 overflow-hidden z-0">
+          <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[140%] bg-blue-100/40 blur-[100px] rounded-full transform rotate-12"></div>
+          <div className="absolute top-[10%] right-[-10%] w-[50%] h-[120%] bg-purple-100/40 blur-[120px] rounded-full transform -rotate-12"></div>
+          <div className="absolute bottom-[-30%] left-[20%] w-[60%] h-[100%] bg-emerald-50/40 blur-[100px] rounded-full"></div>
+        </div>
+
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <h2 className="text-5xl md:text-7xl font-extrabold mb-8 tracking-tight text-slate-900 drop-shadow-sm">
+              Ready to Revolutionize <br className="hidden sm:block" /> Your Financial Auditing?
+            </h2>
+            <p className="text-slate-700 mb-4 max-w-3xl mx-auto text-xl md:text-2xl font-medium drop-shadow-sm leading-relaxed">
+              Empower your practice with real-time anomaly detection and deep transaction insights today.
+            </p>
           </div>
         </section>
 
