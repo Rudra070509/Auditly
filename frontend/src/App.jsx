@@ -1,10 +1,23 @@
-import React, { useState, useCallback } from 'react';
-import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, Server, Shield, Search, Eye } from 'lucide-react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [file, setFile] = useState(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles?.length > 0) {
@@ -106,12 +119,13 @@ export default function App() {
       {/* Home Section */}
       <section id="home" className="bg-slate-50 relative">
         
-        {/* Blue Hero (Takes full viewport height) */}
-        <div className="bg-brand-blue text-white min-h-[85vh] flex flex-col items-center justify-center text-center relative px-8 pt-8 pb-28">
-          {/* Abstract background elements */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full opacity-10 pointer-events-none">
-            <div className="absolute w-[800px] h-[800px] bg-white rounded-full blur-3xl -top-96 left-1/2 -translate-x-1/2" />
-          </div>
+        {/* Hero Image Background */}
+        <div 
+          className="bg-brand-blue text-white min-h-[85vh] flex flex-col items-center justify-center text-center relative px-8 pt-8 pb-28 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/assets/hero_bg.jpg')" }}
+        >
+          {/* Overlay to ensure text readability if needed (optional) */}
+          <div className="absolute inset-0 bg-black/10 z-0"></div>
 
           <div className="inline-flex items-center space-x-2.5 bg-white/5 border border-white/20 rounded-full px-5 py-1.5 text-[13px] font-medium text-white mb-6 backdrop-blur-sm z-10">
             <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
@@ -183,7 +197,7 @@ export default function App() {
 
         {/* Floating Stats */}
         <div className="w-full max-w-5xl mx-auto px-8 -mt-20 mb-16 relative z-20">
-          <div className="bg-brand-dark rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-700">
+          <div className="bg-slate-900 rounded-2xl shadow-xl transform hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden text-white border border-slate-700">
             <div className="bg-slate-900/50 px-6 py-2.5 border-b border-slate-700 flex items-center space-x-2 text-xs font-mono text-slate-400">
               <div className="flex space-x-1.5 mr-4">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
@@ -640,6 +654,16 @@ export default function App() {
         </div>
       </footer>
       </div>
+      {/* Scroll To Top Button */}
+      <button 
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 p-3 rounded-full bg-brand-blue text-white shadow-xl transition-all duration-300 z-50 hover:-translate-y-1 hover:shadow-2xl hover:bg-blue-600 border border-blue-400/20 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp size={24} strokeWidth={2.5} />
+      </button>
     </div>
   );
 }
