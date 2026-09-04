@@ -11,7 +11,8 @@ const port = process.env.PORT || 3000;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Basic health check route
 app.get('/api/health', (req, res) => {
@@ -208,6 +209,41 @@ app.post('/api/scan', authenticateToken, upload.single('file'), async (req, res)
       res.json(JSON.parse(data));
     });
   });
+});
+
+// GEMINI CHAT ENDPOINT
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+app.post('/api/chat', authenticateToken, async (req, res) => {
+  try {
+    const { prompt, reportData, history } = req.body;
+    const apiKey = process.env.GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      return res.status(500).json({ error: "Gemini API key is not configured in backend/.env" });
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const systemContext = `
+You are an expert AI financial auditor and forensic accountant. 
+The user is viewing an AI-generated audit report. Here is the anomaly data from their ledger:
+${JSON.stringify(reportData)}
+
+Answer the user's questions clearly, professionally, and concisely based ONLY on this data. Explain the anomalies and suggest remedies.
+    `.trim();
+
+    const fullPrompt = `${systemContext}\n\nUser Question: ${prompt}`;
+
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ reply: text });
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    res.status(500).json({ error: "Failed to generate AI response." });
+  }
 });
 
 app.listen(port, () => {

@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText } from 'lucide-react';
+import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, Send, Bot, User } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 export default function Dashboard({ setHasReport }) {
   const [file, setFile] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
   const [report, setReport] = useState(null);
+  const [chatInput, setChatInput] = useState('');
+  const [chatHistory, setChatHistory] = useState([]);
+  const [isChatLoading, setIsChatLoading] = useState(false);
 
   const onDrop = useCallback(acceptedFiles => {
     setFile(acceptedFiles[0]);
@@ -56,6 +59,47 @@ export default function Dashboard({ setHasReport }) {
       alert('Network error connecting to backend.');
     } finally {
       setIsScanning(false);
+    }
+  };
+
+  const handleChatSubmit = async (e) => {
+    e.preventDefault();
+    if (!chatInput.trim() || isChatLoading) return;
+    
+    const prompt = chatInput.trim();
+    setChatInput('');
+    setChatHistory(prev => [...prev, { role: 'user', content: prompt }]);
+    setIsChatLoading(true);
+
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:3000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { 'Authorization': `Bearer ${token}` })
+        },
+        body: JSON.stringify({ prompt, reportData: report, history: chatHistory })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setChatHistory(prev => [...prev, { role: 'ai', content: data.reply }]);
+      } else {
+        let errMessage = 'API Key may be missing or server error.';
+        try {
+          const err = await res.json();
+          errMessage = err.error || errMessage;
+        } catch (e) {
+          errMessage = `Server returned ${res.status}: ${res.statusText}`;
+        }
+        setChatHistory(prev => [...prev, { role: 'ai', content: `Error: ${errMessage}` }]);
+      }
+    } catch (err) {
+      console.error(err);
+      setChatHistory(prev => [...prev, { role: 'ai', content: "Failed to connect to the AI engine. Check your network or API key." }]);
+    } finally {
+      setIsChatLoading(false);
     }
   };
 
@@ -234,6 +278,71 @@ export default function Dashboard({ setHasReport }) {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+              </div>
+            </div>
+
+            {/* AI Assistant Chat Section */}
+            <div className="mt-8 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col" style={{ height: '400px' }}>
+              <div className="bg-slate-900 text-white p-4 flex items-center space-x-2">
+                <Bot size={20} className="text-brand-blue" />
+                <h3 className="font-bold text-sm">Auditly AI Assistant</h3>
+                <span className="text-xs bg-white/10 px-2 py-0.5 rounded text-slate-300 ml-auto">Gemini 1.5 Flash</span>
+              </div>
+              
+              <div className="flex-grow p-4 overflow-y-auto space-y-4 bg-slate-50/50">
+                {chatHistory.length === 0 ? (
+                  <div className="h-full flex flex-col items-center justify-center text-slate-400 text-sm">
+                    <Bot size={32} className="mb-2 opacity-50" />
+                    <p>Ask me about the anomalies found in this ledger.</p>
+                  </div>
+                ) : (
+                  chatHistory.map((msg, idx) => (
+                    <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`flex space-x-2 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-slate-200 text-slate-600' : 'bg-brand-blue text-white'}`}>
+                          {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                        </div>
+                        <div className={`p-3 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-brand-blue text-white rounded-tr-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-sm shadow-sm'}`}>
+                          {msg.content}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+                {isChatLoading && (
+                  <div className="flex justify-start">
+                    <div className="flex space-x-2 max-w-[85%]">
+                      <div className="w-8 h-8 rounded-full bg-brand-blue text-white flex items-center justify-center flex-shrink-0">
+                        <Bot size={16} />
+                      </div>
+                      <div className="p-3 rounded-2xl text-sm bg-white border border-slate-200 text-slate-700 rounded-tl-sm shadow-sm flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-3 bg-white border-t border-slate-200">
+                <form onSubmit={handleChatSubmit} className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    placeholder="Ask 'What are these anomalies and why?'..."
+                    className="flex-grow bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue transition-all"
+                    disabled={isChatLoading}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!chatInput.trim() || isChatLoading}
+                    className="bg-slate-900 text-white p-2.5 rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+                  >
+                    <Send size={18} />
+                  </button>
+                </form>
               </div>
             </div>
           </>
