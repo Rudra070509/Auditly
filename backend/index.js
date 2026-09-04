@@ -240,11 +240,11 @@ Answer the user's questions clearly, professionally, and concisely based ONLY on
     const text = response.text();
 
     res.json({ reply: text });
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    res.status(500).json({ error: "Failed to generate AI response." });
-  }
-});
+    } catch (error) {
+      console.error("Gemini API Error:", error);
+      res.status(500).json({ error: `AI Error: ${error.message}` });
+    }
+  });
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
