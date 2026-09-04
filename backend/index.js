@@ -11,8 +11,7 @@ const port = process.env.PORT || 3000;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json());
 
 // Basic health check route
 app.get('/api/health', (req, res) => {
@@ -210,56 +209,6 @@ app.post('/api/scan', authenticateToken, upload.single('file'), async (req, res)
     });
   });
 });
-
-// GEMINI CHAT ENDPOINT
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-app.post('/api/chat', authenticateToken, async (req, res) => {
-  try {
-    const { prompt, reportData, history } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
-    
-    if (!apiKey) {
-      return res.status(500).json({ error: "Gemini API key is not configured in backend/.env" });
-    }
-
-    const genAI = new GoogleGenerativeAI(apiKey);
-    
-    const systemContext = `
-You are an expert AI financial auditor and forensic accountant. 
-The user is viewing an AI-generated audit report. Here is the anomaly data from their ledger:
-${JSON.stringify(reportData)}
-
-Answer the user's questions clearly, professionally, and concisely based ONLY on this data. Explain the anomalies and suggest remedies.
-    `.trim();
-
-    const fullPrompt = `${systemContext}\n\nUser Question: ${prompt}`;
-
-    let result;
-    try {
-      // First try the default flash model
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      result = await model.generateContent(fullPrompt);
-    } catch (e1) {
-      console.warn("Failed with gemini-1.5-flash, trying gemini-1.5-pro...");
-      try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-        result = await model.generateContent(fullPrompt);
-      } catch (e2) {
-        console.warn("Failed with gemini-1.5-pro, trying gemini-pro...");
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        result = await model.generateContent(fullPrompt);
-      }
-    }
-
-    const response = await result.response;
-    const text = response.text();
-
-    res.json({ reply: text });
-    } catch (error) {
-      console.error("Gemini API Error:", error);
-      res.status(500).json({ error: `AI Error: ${error.message}` });
-    }
-  });
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

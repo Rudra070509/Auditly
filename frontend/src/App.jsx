@@ -110,7 +110,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen font-sans selection:bg-brand-blue selection:text-white">
+    <div className="min-h-screen flex flex-col font-sans selection:bg-brand-blue selection:text-white">
       {/* Top Navbar */}
       <nav className="sticky top-0 z-50 bg-white flex justify-between items-center px-8 py-4 transition-all duration-300">
         
@@ -187,58 +187,53 @@ export default function App() {
           {/* Home Section */}
           <section id="home" className="bg-slate-50 relative">
         
-        {/* Hero Video Background */}
-        <div className={`text-slate-900 flex flex-col items-center text-center relative px-8 overflow-hidden bg-white ${isLoggedIn ? 'justify-start pt-16 min-h-screen pb-20' : 'justify-center min-h-[85vh] pt-8 pb-28'}`}>
-          {/* Terranova Animated Background Video */}
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline 
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02] transform-gpu will-change-[filter,transform]"
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
-          ></video>
+          {!isLoggedIn ? (
+            <div className="text-slate-900 flex flex-col items-center text-center relative px-8 overflow-hidden bg-white justify-center min-h-[85vh] pt-8 pb-28">
+              {/* Terranova Animated Background Video */}
+              <video 
+                autoPlay 
+                muted 
+                loop 
+                playsInline 
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02] transform-gpu will-change-[filter,transform]"
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
+              ></video>
 
-          {!isLoggedIn && (
-            <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-sm font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
-              <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
-              <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
+              <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-sm font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
+                <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
+                <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
+              </div>
+
+              <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
+                Auditly.
+              </h1>
+              
+              <div className="text-center z-10 mb-12 flex flex-col space-y-1">
+                <p className="text-xl md:text-2xl text-slate-700 font-medium">
+                  AI-Powered Financial Audit Anomaly Detection.
+                </p>
+                <p className="text-xl md:text-2xl text-slate-700 font-medium">
+                  Detect suspicious patterns. Audit smarter. Close faster.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 z-10 relative mt-4">
+                <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
+                  Learn More
+                </a>
+                <button onClick={() => setShowLogin(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
+                  Login
+                </button>
+                <a href="#simulator" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
+                  <Play size={18} fill="currentColor" />
+                  <span>Test Simulator</span>
+                </a>
+              </div>
             </div>
-          )}
-
-          <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
-            Auditly.
-          </h1>
-          
-          {!isLoggedIn && (
-            <div className="text-center z-10 mb-12 flex flex-col space-y-1">
-              <p className="text-xl md:text-2xl text-slate-700 font-medium">
-                AI-Powered Financial Audit Anomaly Detection.
-              </p>
-              <p className="text-xl md:text-2xl text-slate-700 font-medium">
-                Detect suspicious patterns. Audit smarter. Close faster.
-              </p>
-            </div>
-          )}
-
-          {isLoggedIn ? (
-            <Dashboard />
           ) : (
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 z-10 relative mt-4">
-              <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
-                Learn More
-              </a>
-              <button onClick={() => setShowLogin(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
-                Login
-              </button>
-              <a href="#simulator" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 min-w-[160px]">
-                <Play size={18} fill="currentColor" />
-                <span>Test Simulator</span>
-              </a>
-            </div>
+            <Dashboard />
           )}
-        </div>
 
         {/* Floating Stats */}
         {!isLoggedIn && (
@@ -677,7 +672,7 @@ export default function App() {
       {activePage === 'contact' && <ContactUs />}
 
       {/* Footer */}
-      {(activePage === 'home' && !isLoggedIn) && (
+      {!isLoggedIn && (
         <footer className="relative bg-[#070b14] text-slate-300 pt-20 pb-12 px-8 border-t border-slate-800 mt-auto">
           {/* Subtle background glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>

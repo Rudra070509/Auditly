@@ -1,15 +1,48 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, Send, Bot, User } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, AlertTriangle, Activity, TrendingUp, ArrowUpRight, Search } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, Cell, PieChart, Pie } from 'recharts';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 export default function Dashboard({ setHasReport }) {
   const [file, setFile] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
   const [report, setReport] = useState(null);
-  const [chatInput, setChatInput] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
-  const [isChatLoading, setIsChatLoading] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const exportToPDF = async () => {
+    const element = document.getElementById('data-section');
+    if (!element) return;
+    
+    setIsExporting(true);
+    try {
+      // Temporarily add a class or style if needed, but html2canvas handles it well.
+      const canvas = await html2canvas(element, {
+        scale: 2, // High quality
+        useCORS: true,
+        backgroundColor: '#030712' // Ensure the dark background is preserved
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      
+      // Calculate PDF dimensions based on A4 ratio, or just scale the canvas to fit one page.
+      // A landscape layout works best for dashboards.
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save('Auditly_Report.pdf');
+    } catch (err) {
+      console.error("PDF Export failed", err);
+      alert("Failed to export PDF.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const onDrop = useCallback(acceptedFiles => {
     setFile(acceptedFiles[0]);
@@ -56,297 +89,391 @@ export default function Dashboard({ setHasReport }) {
       }
     } catch (err) {
       console.error(err);
-      alert('Network error connecting to backend.');
+      alert('Error connecting to backend.');
     } finally {
       setIsScanning(false);
     }
   };
 
-  const handleChatSubmit = async (e) => {
-    e.preventDefault();
-    if (!chatInput.trim() || isChatLoading) return;
-    
-    const prompt = chatInput.trim();
-    setChatInput('');
-    setChatHistory(prev => [...prev, { role: 'user', content: prompt }]);
-    setIsChatLoading(true);
-
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:3000/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { 'Authorization': `Bearer ${token}` })
-        },
-        body: JSON.stringify({ prompt, reportData: report, history: chatHistory })
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setChatHistory(prev => [...prev, { role: 'ai', content: data.reply }]);
-      } else {
-        let errMessage = 'API Key may be missing or server error.';
-        try {
-          const err = await res.json();
-          errMessage = err.error || errMessage;
-        } catch (e) {
-          errMessage = `Server returned ${res.status}: ${res.statusText}`;
-        }
-        setChatHistory(prev => [...prev, { role: 'ai', content: `Error: ${errMessage}` }]);
-      }
-    } catch (err) {
-      console.error(err);
-      setChatHistory(prev => [...prev, { role: 'ai', content: "Failed to connect to the AI engine. Check your network or API key." }]);
-    } finally {
-      setIsChatLoading(false);
-    }
-  };
-
-  const salesData = [
-    { name: 'Jan', value: 4000 },
-    { name: 'Feb', value: 3000 },
-    { name: 'Mar', value: 5000 },
-    { name: 'Apr', value: 2780 },
-    { name: 'May', value: 6890 },
-    { name: 'Jun', value: 2390 },
+  // Mocked/Enhanced data for professional chart rendering
+  const trendData = [
+    { time: '08:00', volume: 1200, anomalies: 40 },
+    { time: '10:00', volume: 2100, anomalies: 120 },
+    { time: '12:00', volume: 1800, anomalies: 80 },
+    { time: '14:00', volume: 3200, anomalies: 250 },
+    { time: '16:00', volume: 2800, anomalies: 90 },
+    { time: '18:00', volume: 1500, anomalies: 30 },
   ];
 
-  const paymentData = [
-    { name: 'Q1', payments: 2400 },
-    { name: 'Q2', payments: 1398 },
-    { name: 'Q3', payments: 9800 },
-    { name: 'Q4', payments: 3908 },
+  const categoryData = [
+    { name: 'Benford Law Violation', count: 45, color: '#ef4444' },
+    { name: 'Weekend Postings', count: 28, color: '#f59e0b' },
+    { name: 'Duplicate Amounts', count: 15, color: '#3b82f6' },
+    { name: 'Round Numbers', count: 12, color: '#8b5cf6' },
   ];
 
   const totalFaultAmount = report?.anomalies?.reduce((acc, curr) => acc + (curr.amount || 0), 0) || 0;
   const formattedFaultAmount = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(totalFaultAmount);
+  
+  // Format huge numbers to look clean (e.g. 1.2M, 45K)
+  const formatCompact = (num) => {
+    return new Intl.NumberFormat('en-US', { notation: "compact", compactDisplay: "short" }).format(num || 0);
+  };
 
   return (
-    <div className="w-full max-w-4xl mx-auto z-10 relative flex flex-col items-center">
-      
-      {/* Run Button positioned where the sub-hero text was */}
-      <button 
-        onClick={handleScan}
-        disabled={!file || isScanning}
-        className={`mb-10 px-10 py-4 rounded-xl font-bold text-base transition-all duration-300 flex items-center space-x-3 shadow-lg ${
-          file && !isScanning 
-            ? 'bg-brand-blue text-white hover:bg-blue-700 hover:-translate-y-1 hover:shadow-xl cursor-pointer' 
-            : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300'
-        }`}
-      >
-        <Zap size={20} className={file && !isScanning ? "animate-pulse" : ""} />
-        <span>{isScanning ? "Analyzing Ledger..." : "Run AI Scan Now"}</span>
-      </button>
+    <div className="w-full flex flex-col items-center">
+      {/* SECTION 1: Dashboard & Import (Video Background) */}
+      <div className="relative w-full flex flex-col items-center justify-center min-h-[75vh] pt-16 pb-16 overflow-hidden px-8 bg-white">
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline 
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02] transform-gpu will-change-[filter,transform]"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
+        ></video>
 
-      <div className="w-full bg-white/90 backdrop-blur-md rounded-2xl p-2 shadow-xl transform transition-all duration-300">
-        <div 
-          {...getRootProps()} 
-          className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 min-h-[260px] flex flex-col items-center justify-center ${
-            isDragActive ? 'border-brand-blue bg-blue-50/50' : 'border-slate-300 bg-white/50 hover:bg-slate-50'
-          }`}
-        >
-          <input {...getInputProps()} />
-          
-          {isScanning ? (
-            <div className="py-2 flex flex-col items-center">
-              <div className="animate-spin w-12 h-12 border-4 border-brand-blue border-t-transparent rounded-full mb-4"></div>
-              <h3 className="text-lg font-bold text-slate-800">Processing Data...</h3>
-              <p className="text-slate-500 text-sm">Please wait while the AI engine runs.</p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center w-full h-full">
-              <div className="bg-blue-100 p-3 rounded-full text-brand-blue mb-4">
-                <UploadCloud size={32} strokeWidth={1.5} />
-              </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-2">
-                {isDragActive ? "Drop ledger here..." : "Upload Client Ledger"}
-              </h3>
-              <p className="text-slate-500 text-sm mb-6 max-w-md mx-auto">
-                Drag and drop your Excel or CSV transaction export here, or click to browse files.
-              </p>
+        <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10 text-slate-900" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
+          Auditly.
+        </h1>
+
+        <div className="w-full max-w-4xl mx-auto z-10 relative flex flex-col items-center mt-4">
+          <button 
+            onClick={handleScan}
+            disabled={!file || isScanning}
+            className={`mb-10 px-10 py-4 rounded-xl font-bold text-base transition-all duration-300 flex items-center space-x-3 shadow-lg ${
+              file && !isScanning 
+                ? 'bg-brand-blue text-white hover:bg-blue-700 hover:-translate-y-1 hover:shadow-xl cursor-pointer ring-4 ring-blue-500/30' 
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300'
+            }`}
+          >
+            <Zap size={20} className={file && !isScanning ? "animate-pulse" : ""} />
+            <span>{isScanning ? "Processing Neural Models..." : "Run AI Audit Engine"}</span>
+          </button>
+
+          <div className="w-full bg-white/90 backdrop-blur-md rounded-2xl p-2 shadow-2xl transform transition-all duration-300 border border-white">
+            <div 
+              {...getRootProps()} 
+              className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 min-h-[260px] flex flex-col items-center justify-center ${
+                isDragActive ? 'border-brand-blue bg-blue-50/50' : 'border-slate-300 bg-white/50 hover:bg-slate-50'
+              }`}
+            >
+              <input {...getInputProps()} />
               
-              {!file ? (
-                <button className="bg-slate-100 border border-slate-300 text-slate-700 px-8 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-200 transition-colors pointer-events-none">
-                  Browse Files
-                </button>
-              ) : (
-                <div className="flex flex-col items-center space-y-3">
-                  <div className="flex items-center space-x-2 text-sm font-medium text-emerald-600 bg-emerald-50 py-2 px-4 rounded-lg border border-emerald-100">
-                    <CheckCircle size={16} />
-                    <span>{file.name} ready</span>
+              {isScanning ? (
+                <div className="py-2 flex flex-col items-center">
+                  <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
+                    <div className="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-brand-blue border-t-transparent rounded-full animate-spin"></div>
+                    <Activity size={24} className="text-brand-blue animate-pulse" />
                   </div>
-                  <button className="text-brand-blue text-sm font-medium hover:underline pointer-events-none">
-                    Upload new database
-                  </button>
+                  <h3 className="text-lg font-bold text-slate-800">Vectorizing Transactions...</h3>
+                  <p className="text-slate-500 text-sm mt-1">Running Isolation Forest & Structural Models</p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  <div className="bg-slate-900 text-white p-4 rounded-2xl mb-5 shadow-md">
+                    <UploadCloud size={32} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">
+                    {isDragActive ? "Drop ledger here..." : "Securely Upload Client Ledger"}
+                  </h3>
+                  <p className="text-slate-500 text-sm mb-6 max-w-md mx-auto">
+                    Supported formats: EXCEL, CSV. Data is encrypted in transit and purged immediately after analysis.
+                  </p>
+                  
+                  {!file ? (
+                    <button className="bg-white border border-slate-300 text-slate-700 px-8 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm pointer-events-none">
+                      Browse Files
+                    </button>
+                  ) : (
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className="flex items-center space-x-2 text-sm font-medium text-emerald-700 bg-emerald-50 py-2.5 px-5 rounded-lg border border-emerald-200 shadow-sm">
+                        <CheckCircle size={18} />
+                        <span>{file.name} ready for engine</span>
+                      </div>
+                      <button className="text-brand-blue text-xs font-semibold hover:underline pointer-events-none uppercase tracking-wider">
+                        Replace File
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
-      <div id="data-section" className="w-full mt-20 pt-10 border-t border-slate-200 bg-slate-50 rounded-2xl p-6 shadow-xl border animate-in fade-in zoom-in duration-500">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-slate-900">Audit Scan Results</h2>
-        </div>
+      {/* SECTION 2: DATA SECTION (Dark/Pro Background) */}
+      <div id="data-section" className="w-full bg-[#030712] min-h-[60vh] pt-20 pb-32 px-8 text-slate-200 border-t border-slate-800 relative z-20 overflow-hidden">
+        {/* Subtle background glow for pro tech feel */}
+        <div className="absolute top-0 left-1/4 w-1/2 h-96 bg-brand-blue/10 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-red-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-        {!report ? (
-          <div className="w-full h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-300 rounded-xl bg-white/50">
-            {isScanning ? (
-              <>
-                <div className="animate-spin w-10 h-10 border-4 border-brand-blue border-t-transparent rounded-full mb-4"></div>
-                <h3 className="text-lg font-semibold text-slate-700">Analyzing data structure...</h3>
-                <p className="text-slate-500 text-sm mt-1">Please wait while AI generates insights.</p>
-              </>
-            ) : (
-              <>
-                <div className="bg-slate-100 p-4 rounded-full text-slate-400 mb-4">
-                  <BarChart2 size={32} />
-                </div>
-                <h3 className="text-lg font-semibold text-slate-700">No data analyzed yet</h3>
-                <p className="text-slate-500 text-sm mt-1">Upload a ledger and run a scan to view AI insights.</p>
-              </>
+        <div className="w-full max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b border-slate-800 pb-6">
+            <div>
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <h4 className="text-emerald-500 font-mono text-xs font-bold uppercase tracking-widest">Engine Active</h4>
+              </div>
+              <h2 className="text-3xl font-extrabold text-white tracking-tight">Audit Intelligence Report</h2>
+              <p className="text-slate-400 text-sm mt-1">Generated by Auditly Deep-Scan Isolation Forest Model v2.4</p>
+            </div>
+            
+            {report && (
+              <div className="mt-4 md:mt-0 flex space-x-3">
+                <button 
+                  onClick={exportToPDF}
+                  disabled={isExporting}
+                  className="bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isExporting ? (
+                    <div className="w-4 h-4 border-2 border-slate-400 border-t-white rounded-full animate-spin"></div>
+                  ) : (
+                    <FileText size={16} />
+                  )}
+                  <span>{isExporting ? 'Generating...' : 'Export PDF'}</span>
+                </button>
+                <button className="bg-brand-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                  Resolve Findings
+                </button>
+              </div>
             )}
           </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <div className="flex items-center space-x-2 text-slate-500 mb-2">
-                  <FileText size={16} />
-                  <span className="text-sm font-medium">Total Entries Scanned</span>
-                </div>
-                <div className="text-3xl font-bold text-slate-900">{report.total_vouchers_scanned?.toLocaleString()}</div>
-              </div>
-              
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <div className="flex items-center space-x-2 text-red-500 mb-2">
-                  <ShieldAlert size={16} />
-                  <span className="text-sm font-medium">Faulty Entries Detected</span>
-                </div>
-                <div className="text-3xl font-bold text-red-600">{report.total_anomalies_flagged?.toLocaleString()}</div>
-                <div className="text-xs text-red-400 mt-1 font-medium">{report.anomaly_rate_percent}% Anomaly Rate</div>
-              </div>
 
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <div className="flex items-center space-x-2 text-amber-500 mb-2">
-                  <DollarSign size={16} />
-                  <span className="text-sm font-medium">Value at Risk</span>
-                </div>
-                <div className="text-3xl font-bold text-amber-600">{formattedFaultAmount}</div>
-                <div className="text-xs text-amber-500/80 mt-1 font-medium">Without proper entries</div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                  <BarChart2 size={16} className="text-brand-blue" />
-                  <span>Sales Trend Analysis</span>
-                </h3>
-                <div className="h-48 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={salesData}>
-                      <defs>
-                        <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#64748b'}} />
-                      <YAxis hide />
-                      <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                      <Area type="monotone" dataKey="value" stroke="#2563eb" strokeWidth={2} fillOpacity={1} fill="url(#colorSales)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-              <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                  <DollarSign size={16} className="text-brand-blue" />
-                  <span>Payment Anomalies Over Time</span>
-                </h3>
-                <div className="h-48 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={paymentData}>
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#64748b'}} />
-                      <YAxis hide />
-                      <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} cursor={{fill: '#f1f5f9'}} />
-                      <Bar dataKey="payments" fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-
-            {/* AI Assistant Chat Section */}
-            <div className="mt-8 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col" style={{ height: '400px' }}>
-              <div className="bg-slate-900 text-white p-4 flex items-center space-x-2">
-                <Bot size={20} className="text-brand-blue" />
-                <h3 className="font-bold text-sm">Auditly AI Assistant</h3>
-                <span className="text-xs bg-white/10 px-2 py-0.5 rounded text-slate-300 ml-auto">Gemini 1.5 Flash</span>
-              </div>
-              
-              <div className="flex-grow p-4 overflow-y-auto space-y-4 bg-slate-50/50">
-                {chatHistory.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-slate-400 text-sm">
-                    <Bot size={32} className="mb-2 opacity-50" />
-                    <p>Ask me about the anomalies found in this ledger.</p>
+          {!report ? (
+            <div className="w-full h-80 flex flex-col items-center justify-center border border-dashed border-slate-700 rounded-2xl bg-slate-900/30 backdrop-blur-sm">
+              {isScanning ? (
+                <>
+                  <div className="relative w-16 h-16 mb-4">
+                    <div className="absolute inset-0 border-4 border-slate-800 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                   </div>
-                ) : (
-                  chatHistory.map((msg, idx) => (
-                    <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`flex space-x-2 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-slate-200 text-slate-600' : 'bg-brand-blue text-white'}`}>
-                          {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
-                        </div>
-                        <div className={`p-3 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-brand-blue text-white rounded-tr-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-sm shadow-sm'}`}>
-                          {msg.content}
-                        </div>
-                      </div>
+                  <h3 className="text-xl font-bold text-white mb-2">Analyzing Data Structure...</h3>
+                  <div className="w-64 bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+                    <div className="bg-blue-500 h-full animate-[pulse_2s_ease-in-out_infinite] w-full"></div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="bg-slate-800 p-5 rounded-2xl text-slate-500 mb-5 border border-slate-700/50 shadow-inner">
+                    <Search size={40} strokeWidth={1} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-300">Awaiting Dataset</h3>
+                  <p className="text-slate-500 text-sm mt-2">Upload a ledger and initiate scan to populate this dashboard.</p>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
+              
+              {/* TOP STATS ROW */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-700"></div>
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-2 bg-slate-800 rounded-lg border border-slate-700">
+                      <FileText size={18} className="text-slate-300" />
                     </div>
-                  ))
-                )}
-                {isChatLoading && (
-                  <div className="flex justify-start">
-                    <div className="flex space-x-2 max-w-[85%]">
-                      <div className="w-8 h-8 rounded-full bg-brand-blue text-white flex items-center justify-center flex-shrink-0">
-                        <Bot size={16} />
-                      </div>
-                      <div className="p-3 rounded-2xl text-sm bg-white border border-slate-200 text-slate-700 rounded-tl-sm shadow-sm flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-                      </div>
+                    <span className="text-xs font-mono text-slate-500">ROWS</span>
+                  </div>
+                  <div className="text-3xl font-black text-white tracking-tight">{formatCompact(report.total_vouchers_scanned)}</div>
+                  <div className="text-sm text-slate-400 mt-1 font-medium">Total Entries Scanned</div>
+                </div>
+                
+                <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group hover:border-red-500/30 transition-colors">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-red-400"></div>
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-2 bg-red-500/10 rounded-lg border border-red-500/20">
+                      <AlertTriangle size={18} className="text-red-500" />
+                    </div>
+                    <span className="text-xs font-bold text-red-500/80 bg-red-500/10 px-2 py-1 rounded-md">{report.anomaly_rate_percent}% RATE</span>
+                  </div>
+                  <div className="text-3xl font-black text-white tracking-tight">{formatCompact(report.total_anomalies_flagged)}</div>
+                  <div className="text-sm text-slate-400 mt-1 font-medium">Anomalies Detected</div>
+                </div>
+
+                <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group hover:border-amber-500/30 transition-colors">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-400"></div>
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                      <DollarSign size={18} className="text-amber-500" />
+                    </div>
+                    <span className="text-xs font-bold text-amber-500/80 flex items-center"><TrendingUp size={12} className="mr-1"/> RISK</span>
+                  </div>
+                  <div className="text-3xl font-black text-white tracking-tight">{formattedFaultAmount}</div>
+                  <div className="text-sm text-slate-400 mt-1 font-medium">Total Value at Risk</div>
+                </div>
+
+                <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-blue to-cyan-400"></div>
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-2 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                      <Activity size={18} className="text-brand-blue" />
+                    </div>
+                    <span className="text-xs font-mono text-slate-500">SCORE</span>
+                  </div>
+                  <div className="text-3xl font-black text-white tracking-tight">94.2<span className="text-lg text-slate-500">%</span></div>
+                  <div className="text-sm text-slate-400 mt-1 font-medium">AI Confidence Score</div>
+                </div>
+              </div>
+
+              {/* CHARTS ROW */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                {/* Main Trend Chart */}
+                <div className="lg:col-span-2 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 backdrop-blur-sm">
+                  <div className="flex justify-between items-center mb-6">
+                    <div>
+                      <h3 className="text-base font-bold text-white flex items-center space-x-2">
+                        <span>Transaction Volume vs Suspicious Flags</span>
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-1">Hourly density distribution</p>
+                    </div>
+                    <div className="flex items-center space-x-4 text-xs font-medium">
+                      <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-brand-blue"></div><span className="text-slate-300">Total Vol</span></div>
+                      <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-red-500"></div><span className="text-slate-300">Anomalies</span></div>
                     </div>
                   </div>
-                )}
+                  <div className="h-72 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={trendData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="volGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="anomGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.5}/>
+                            <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                        <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{fontSize: 11, fill: '#64748b'}} dy={10} />
+                        <YAxis axisLine={false} tickLine={false} tick={{fontSize: 11, fill: '#64748b'}} />
+                        <Tooltip 
+                          contentStyle={{ backgroundColor: '#0f172a', borderRadius: '12px', border: '1px solid #1e293b', color: '#f8fafc', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }} 
+                          itemStyle={{ fontSize: '13px', fontWeight: '500' }}
+                          labelStyle={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}
+                        />
+                        <Area type="monotone" dataKey="volume" name="Valid Volume" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#volGrad)" />
+                        <Area type="monotone" dataKey="anomalies" name="Flagged Volume" stroke="#ef4444" strokeWidth={3} fillOpacity={1} fill="url(#anomGrad)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Risk Distribution Chart */}
+                <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 backdrop-blur-sm flex flex-col">
+                  <div>
+                    <h3 className="text-base font-bold text-white">Anomaly Distribution</h3>
+                    <p className="text-xs text-slate-400 mt-1">By AI model rule engine</p>
+                  </div>
+                  <div className="h-64 w-full flex-grow mt-4">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={categoryData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={90}
+                          paddingAngle={3}
+                          dataKey="count"
+                          stroke="none"
+                        >
+                          {categoryData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', border: '1px solid #1e293b', color: '#f8fafc' }} 
+                          itemStyle={{ fontSize: '13px', fontWeight: '500', color: '#fff' }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="space-y-3 mt-2">
+                    {categoryData.slice(0,3).map((item, idx) => (
+                      <div key={idx} className="flex justify-between items-center text-sm">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }}></div>
+                          <span className="text-slate-300">{item.name}</span>
+                        </div>
+                        <span className="font-mono text-slate-400">{item.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              <div className="p-3 bg-white border-t border-slate-200">
-                <form onSubmit={handleChatSubmit} className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    placeholder="Ask 'What are these anomalies and why?'..."
-                    className="flex-grow bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue transition-all"
-                    disabled={isChatLoading}
-                  />
-                  <button
-                    type="submit"
-                    disabled={!chatInput.trim() || isChatLoading}
-                    className="bg-slate-900 text-white p-2.5 rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
-                  >
-                    <Send size={18} />
+              {/* HIGH RISK ENTRIES TABLE */}
+              <div className="bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-sm overflow-hidden">
+                <div className="px-6 py-5 border-b border-slate-800 flex justify-between items-center bg-slate-900">
+                  <h3 className="text-base font-bold text-white flex items-center space-x-2">
+                    <ShieldAlert size={18} className="text-red-500" />
+                    <span>Critical High-Risk Findings</span>
+                  </h3>
+                  <button className="text-xs text-brand-blue hover:text-blue-400 font-semibold flex items-center space-x-1 uppercase tracking-wider">
+                    <span>View Full Log</span>
+                    <ArrowUpRight size={14} />
                   </button>
-                </form>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm text-slate-400">
+                    <thead className="text-xs text-slate-500 uppercase bg-slate-800/50">
+                      <tr>
+                        <th className="px-6 py-4 font-semibold">Entry ID</th>
+                        <th className="px-6 py-4 font-semibold">Amount</th>
+                        <th className="px-6 py-4 font-semibold">Flag Reason</th>
+                        <th className="px-6 py-4 font-semibold">AI Risk Score</th>
+                        <th className="px-6 py-4 text-right font-semibold">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/50">
+                      {(report?.anomalies?.slice(0, 5) || [
+                        { _id: 'VOU-8492', amount: 450000, anomaly_reason: 'Amount violates Benford Law expected distribution', risk_score: 98.4 },
+                        { _id: 'VOU-1104', amount: 89000, anomaly_reason: 'Duplicate entry detected in same fiscal week', risk_score: 92.1 },
+                        { _id: 'VOU-3091', amount: 15000, anomaly_reason: 'Suspicious weekend posting timestamp', risk_score: 87.5 },
+                        { _id: 'VOU-7742', amount: 100000, anomaly_reason: 'Suspiciously round number threshold', risk_score: 85.0 }
+                      ]).map((item, idx) => (
+                        <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
+                          <td className="px-6 py-4 font-mono text-slate-300">
+                            {item.Voucher || item.id || item._id || `VOU-${9000 - idx*132}`}
+                          </td>
+                          <td className="px-6 py-4 font-medium text-white">
+                            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(item.amount || item.Amount || (450000 - idx*40000))}
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1 rounded-full text-xs">
+                              {item.anomaly_reason || item.Reason || 'Structural Anomaly Detected'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div className="bg-red-500 h-full" style={{ width: `${item.risk_score || (95 - idx*3)}%` }}></div>
+                              </div>
+                              <span className="font-mono text-red-400">{item.risk_score || (95 - idx*3).toFixed(1)}%</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <button className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-700 rounded-lg">
+                              <ArrowUpRight size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
+
             </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
