@@ -4,6 +4,7 @@ import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, File
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, Cell, PieChart, Pie } from 'recharts';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import dashboardBg from '../assets/dashboard_bg.png';
 
 export default function Dashboard({ setHasReport }) {
   const [file, setFile] = useState(null);
@@ -155,17 +156,13 @@ export default function Dashboard({ setHasReport }) {
 
   return (
     <div className="w-full flex flex-col items-center">
-      {/* SECTION 1: Dashboard & Import (Video Background) */}
+      {/* SECTION 1: Dashboard & Import (Image Background) */}
       <div className="relative w-full flex flex-col items-center justify-center min-h-[75vh] pt-16 pb-16 overflow-hidden px-8 bg-white">
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline 
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover z-0 blur-[1.5px] scale-[1.02] transform-gpu will-change-[filter,transform]"
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
-        ></video>
+        <img 
+          src={dashboardBg} 
+          alt="Dashboard Background" 
+          className="absolute inset-0 w-full h-full object-cover z-0 object-center"
+        />
 
         <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10 text-slate-900" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
           Auditly.
