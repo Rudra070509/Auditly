@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye, Mail, Phone, ChevronRight } from 'lucide-react';
+import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye, Mail, Phone, ChevronRight, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import Login from './Login';
 import CompanyProfile from './components/CompanyProfile';
@@ -11,6 +11,7 @@ export default function App() {
   const [activePage, setActivePage] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showLearnMore, setShowLearnMore] = useState(false);
   
   const [file, setFile] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -170,7 +171,12 @@ export default function App() {
 
         <div className="flex items-center justify-end space-x-3 w-48">
           {isLoggedIn ? (
-            <button onClick={() => { setIsLoggedIn(false); setShowLogin(false); }} className="bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
+            <button onClick={() => { 
+              setIsLoggedIn(false); 
+              setShowLogin(false); 
+              setActivePage('home');
+              window.scrollTo(0, 0);
+            }} className="bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
               Sign Out
             </button>
           ) : (
@@ -219,9 +225,9 @@ export default function App() {
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 z-10 relative mt-4">
-                <a href="#features" className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
+                <button onClick={() => setShowLearnMore(true)} className="border-2 border-slate-800 text-slate-900 font-bold px-8 py-3.5 rounded-lg hover:bg-slate-900/10 hover:-translate-y-1 transition-all duration-300 min-w-[160px] text-center">
                   Learn More
-                </a>
+                </button>
                 <button onClick={() => setShowLogin(true)} className="bg-slate-900 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 min-w-[160px] shadow-xl">
                   Login
                 </button>
@@ -787,6 +793,49 @@ export default function App() {
       >
         <ArrowUp size={24} strokeWidth={2.5} />
       </button>
+
+      {/* Learn More Pop-up Modal */}
+      {showLearnMore && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="p-8">
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-brand-blue/10 p-3 rounded-xl">
+                    <ShieldAlert className="text-brand-blue" size={28} />
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-900">How Auditly Works</h2>
+                </div>
+                <button onClick={() => setShowLearnMore(false)} className="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors cursor-pointer">
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="space-y-4 text-slate-600">
+                <p>Auditly uses advanced <strong>Machine Learning (Isolation Forests)</strong> and structural rule engines to scan your financial ledgers for hidden anomalies.</p>
+                
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 mt-4">
+                  <h4 className="font-bold text-slate-800 mb-2 flex items-center"><Zap size={16} className="mr-2 text-brand-blue"/> What we detect:</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-sm">
+                    <li><strong>Benford's Law Violations:</strong> Unnatural number patterns often indicating fraud.</li>
+                    <li><strong>Structural Anomalies:</strong> Duplicate amounts, round numbers, and weekend postings.</li>
+                    <li><strong>Multivariate Outliers:</strong> Transactions that break the deep statistical norms of your specific business.</li>
+                  </ul>
+                </div>
+                
+                <p className="text-sm mt-4">Upload your CSV or Excel ledger, and our engine instantly vectorizes your data to give you a comprehensive, professional risk report in seconds.</p>
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                <button onClick={() => setShowLearnMore(false)} className="bg-slate-900 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-slate-800 transition-colors shadow-lg cursor-pointer">
+                  Got it, thanks!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
