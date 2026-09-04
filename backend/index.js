@@ -34,6 +34,16 @@ const initDB = async () => {
       `);
       // Add password column if it doesn't exist (for traditional auth)
       await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password VARCHAR(255);`);
+      
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS reports (
+          id SERIAL PRIMARY KEY,
+          user_id INTEGER REFERENCES users(id),
+          filename VARCHAR(255),
+          report_data JSONB,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
       console.log('Database tables initialized.');
     }
   } catch (err) {
@@ -193,21 +203,69 @@ app.post('/api/scan', authenticateToken, upload.single('file'), async (req, res)
 
   pythonProcess.stderr.on('data', (data) => console.error(`Python Error: ${data}`));
 
-  pythonProcess.on('close', (code) => {
+  pythonProcess.on('close', async (code) => {
     if (code !== 0) {
       return res.status(500).json({ error: 'Anomaly engine failed to process file.' });
     }
 
-    fs.readFile(outputPath, 'utf8', (err, data) => {
+    fs.readFile(outputPath, 'utf8', async (err, data) => {
       if (err) return res.status(500).json({ error: 'Failed to read results' });
       
-      // Cleanup temp files
-      fs.unlink(inputPath, () => {});
-      fs.unlink(outputPath, () => {});
+      try {
+        const reportJson = JSON.parse(data);
+        
+        // Save report to database
+        const result = await db.query(
+          'INSERT INTO reports (user_id, filename, report_data) VALUES ($1, $2, $3) RETURNING id, created_at',
+          [req.user.userId, req.file.originalname, reportJson]
+        );
+        
+        const savedReportId = result.rows[0].id;
+        
+        // Append db ID to the response
+        const finalResponse = {
+          ...reportJson,
+          db_report_id: savedReportId
+        };
+        
+        // Cleanup temp files
+        fs.unlink(inputPath, () => {});
+        fs.unlink(outputPath, () => {});
 
-      res.json(JSON.parse(data));
+        res.json(finalResponse);
+      } catch (dbErr) {
+        console.error('Error saving report to DB:', dbErr);
+        res.status(500).json({ error: 'Failed to save report to database' });
+      }
     });
   });
+});
+
+app.get('/api/reports', authenticateToken, async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT id, filename, created_at FROM reports WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.userId]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching reports:', err);
+    res.status(500).json({ error: 'Failed to fetch reports' });
+  }
+});
+
+app.get('/api/reports/:id', authenticateToken, async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT * FROM reports WHERE id = $1 AND user_id = $2',
+      [req.params.id, req.user.userId]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Report not found' });
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error fetching report:', err);
+    res.status(500).json({ error: 'Failed to fetch report' });
+  }
 });
 
 app.listen(port, () => {

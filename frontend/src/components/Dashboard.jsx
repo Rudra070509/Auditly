@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, AlertTriangle, Activity, TrendingUp, ArrowUpRight, Search } from 'lucide-react';
+import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, AlertTriangle, Activity, TrendingUp, ArrowUpRight, Search, Clock, X } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, Cell, PieChart, Pie } from 'recharts';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -10,6 +10,8 @@ export default function Dashboard({ setHasReport }) {
   const [isScanning, setIsScanning] = useState(false);
   const [report, setReport] = useState(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [historyReports, setHistoryReports] = useState([]);
 
   const exportToPDF = async () => {
     const element = document.getElementById('data-section');
@@ -41,6 +43,37 @@ export default function Dashboard({ setHasReport }) {
       alert("Failed to export PDF.");
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const fetchHistory = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/reports', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setHistoryReports(data);
+        setShowHistory(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const loadPastReport = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/reports/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setReport(data.report_data);
+        if (setHasReport) setHasReport(true);
+        setShowHistory(false);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -236,8 +269,12 @@ export default function Dashboard({ setHasReport }) {
                   )}
                   <span>{isExporting ? 'Generating...' : 'Export PDF'}</span>
                 </button>
-                <button className="bg-brand-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)]">
-                  Resolve Findings
+                <button 
+                  onClick={fetchHistory}
+                  className="bg-brand-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center space-x-2"
+                >
+                  <Clock size={16} />
+                  <span>History</span>
                 </button>
               </div>
             )}
@@ -475,6 +512,56 @@ export default function Dashboard({ setHasReport }) {
           )}
         </div>
       </div>
+      {/* History Modal */}
+      {showHistory && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-[#0f172a] border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div className="flex justify-between items-center p-6 border-b border-slate-800">
+              <h3 className="text-xl font-bold text-white flex items-center space-x-2">
+                <Clock className="text-brand-blue" size={20} />
+                <span>Past Scans</span>
+              </h3>
+              <button 
+                onClick={() => setShowHistory(false)}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="p-4 overflow-y-auto flex-1 hide-scrollbar">
+              {historyReports.length === 0 ? (
+                <div className="text-center py-8 text-slate-500">
+                  No past reports found.
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {historyReports.map(rp => (
+                    <div 
+                      key={rp.id} 
+                      onClick={() => loadPastReport(rp.id)}
+                      className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 cursor-pointer hover:bg-slate-700 hover:border-brand-blue/50 transition-all flex justify-between items-center group"
+                    >
+                      <div>
+                        <div className="text-slate-200 font-medium group-hover:text-white transition-colors">
+                          {rp.filename || 'Unknown Dataset'}
+                        </div>
+                        <div className="text-slate-500 text-xs mt-1">
+                          {new Date(rp.created_at).toLocaleString()}
+                        </div>
+                      </div>
+                      <div className="text-brand-blue bg-blue-500/10 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowUpRight size={16} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
