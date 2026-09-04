@@ -27,6 +27,7 @@ export default function Login({ setIsLoggedIn, setShowLogin }) {
       
       if (res.ok) {
         console.log("Logged in user:", data.user);
+        localStorage.setItem("token", data.token);
         setIsLoggedIn(true);
         setShowLogin(false);
       } else {
@@ -49,6 +50,7 @@ export default function Login({ setIsLoggedIn, setShowLogin }) {
         if (res.ok) {
           const data = await res.json();
           console.log("Logged in user:", data.user);
+          localStorage.setItem("token", data.token);
           setIsLoggedIn(true);
           setShowLogin(false);
         } else {

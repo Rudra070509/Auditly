@@ -11,6 +11,7 @@ export default function App() {
   const [activePage, setActivePage] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  
   const [file, setFile] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -113,19 +114,27 @@ export default function App() {
       {/* Top Navbar */}
       <nav className="sticky top-0 z-50 bg-white flex justify-between items-center px-8 py-4 transition-all duration-300">
         
-        <div className="flex items-center space-x-2 text-slate-800">
+        <div className="flex items-center space-x-2 text-slate-800 w-48">
           <div className="bg-white p-1.5 rounded-lg text-brand-blue shadow-sm border border-slate-100">
             <BarChart2 size={24} strokeWidth={2.5} />
           </div>
           <span className="text-3xl font-bold tracking-tight" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>Auditly</span>
         </div>
         
-        <div className="hidden md:flex space-x-4 text-sm font-medium">
+        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 space-x-4 text-sm font-medium">
           {isLoggedIn ? (
-            <button className="px-5 py-2 rounded-full bg-blue-50 border border-blue-100 text-brand-blue font-bold shadow-sm flex items-center space-x-2">
-              <BarChart2 size={16} />
-              <span>Dashboard</span>
-            </button>
+            <>
+              <button onClick={scrollToTop} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center space-x-2 cursor-pointer">
+                <BarChart2 size={16} />
+                <span>Dashboard</span>
+              </button>
+              <button onClick={() => {
+                document.getElementById('data-section')?.scrollIntoView({ behavior: 'smooth' });
+              }} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center space-x-2 cursor-pointer">
+                <BarChart2 size={16} className="text-emerald-600" />
+                <span>Data Section</span>
+              </button>
+            </>
           ) : (
             <>
               <button onClick={() => { setActivePage('home'); scrollToTop(); }} className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">Home</button>
@@ -159,7 +168,7 @@ export default function App() {
           )}
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center justify-end space-x-3 w-48">
           {isLoggedIn ? (
             <button onClick={() => { setIsLoggedIn(false); setShowLogin(false); }} className="bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 shadow-sm cursor-pointer">
               Sign Out
@@ -179,7 +188,7 @@ export default function App() {
           <section id="home" className="bg-slate-50 relative">
         
         {/* Hero Video Background */}
-        <div className="text-slate-900 min-h-[85vh] flex flex-col items-center justify-center text-center relative px-8 pt-8 pb-28 overflow-hidden bg-white">
+        <div className={`text-slate-900 flex flex-col items-center text-center relative px-8 overflow-hidden bg-white ${isLoggedIn ? 'justify-start pt-16 min-h-screen pb-20' : 'justify-center min-h-[85vh] pt-8 pb-28'}`}>
           {/* Terranova Animated Background Video */}
           <video 
             autoPlay 
@@ -191,23 +200,20 @@ export default function App() {
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
           ></video>
 
-          <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-sm font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
-            <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
-            <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
-          </div>
-
-          <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-6 z-10" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
+          <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
             Auditly.
           </h1>
           
-          <div className="text-center z-10 mb-12 flex flex-col space-y-1">
-            <p className="text-xl md:text-2xl text-slate-700 font-medium">
-              AI-Powered Financial Audit Anomaly Detection.
-            </p>
-            <p className="text-xl md:text-2xl text-slate-700 font-medium">
-              Detect suspicious patterns. Audit smarter. Close faster.
-            </p>
-          </div>
+          {!isLoggedIn && (
+            <div className="text-center z-10 mb-12 flex flex-col space-y-1">
+              <p className="text-xl md:text-2xl text-slate-700 font-medium">
+                AI-Powered Financial Audit Anomaly Detection.
+              </p>
+              <p className="text-xl md:text-2xl text-slate-700 font-medium">
+                Detect suspicious patterns. Audit smarter. Close faster.
+              </p>
+            </div>
+          )}
 
           {isLoggedIn ? (
             <Dashboard />
@@ -247,24 +253,24 @@ export default function App() {
               
               <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-700 p-6">
                 <div className="px-6 py-2">
-                  <div className="text-slate-400 text-xs font-medium mb-1">System Status</div>
-                  <div className="text-3xl font-bold mb-1">Active</div>
+                  <div className="text-slate-400 text-xs font-medium mb-1">Risk Indicators</div>
+                  <div className="text-3xl font-bold mb-1">24</div>
                   <div className="flex items-center text-blue-400 text-xs font-medium">
-                    <ShieldAlert size={12} className="mr-1.5" /> Ready for ledger data
+                    <ShieldAlert size={12} className="mr-1.5" /> Financial heuristics mapped
                   </div>
                 </div>
                 <div className="px-6 py-2">
-                  <div className="text-slate-400 text-xs font-medium mb-1">Pattern Recognition</div>
-                  <div className="text-3xl font-bold mb-1">Enabled</div>
+                  <div className="text-slate-400 text-xs font-medium mb-1">Model Precision</div>
+                  <div className="text-3xl font-bold mb-1">99.8%</div>
                   <div className="flex items-center text-green-400 text-xs font-medium">
-                    <CheckCircle size={12} className="mr-1.5" /> ML models initialized
+                    <CheckCircle size={12} className="mr-1.5" /> Statistical validation ready
                   </div>
                 </div>
                 <div className="px-6 py-2">
-                  <div className="text-slate-400 text-xs font-medium mb-1">Analysis Mode</div>
-                  <div className="text-3xl font-bold mb-1">Real-time</div>
+                  <div className="text-slate-400 text-xs font-medium mb-1">Processing Capacity</div>
+                  <div className="text-3xl font-bold mb-1">100k+</div>
                   <div className="flex items-center text-yellow-400 text-xs font-medium">
-                    <Zap size={12} className="mr-1.5" /> High throughput ready
+                    <Zap size={12} className="mr-1.5" /> Rows analyzed per second
                   </div>
                 </div>
               </div>

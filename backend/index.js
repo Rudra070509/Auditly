@@ -47,6 +47,20 @@ initDB();
 // Standard Email/Password Auth
 // ---------------------------
 
+// Middleware to verify JWT token
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (!token) return res.status(401).json({ error: 'Access denied. No token provided.' });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Invalid or expired token.' });
+    req.user = user; // { userId, email, iat, exp }
+    next();
+  });
+};
+
 // Register
 app.post('/api/auth/register', async (req, res) => {
   const { email, password } = req.body;
@@ -154,6 +168,46 @@ app.post('/api/auth/google', async (req, res) => {
     console.error('Error verifying Google token:', error);
     res.status(401).json({ error: 'Invalid token' });
   }
+});
+
+const multer = require('multer');
+const { spawn } = require('child_process');
+const path = require('path');
+const fs = require('fs');
+
+const upload = multer({ dest: 'uploads/' });
+
+app.post('/api/scan', authenticateToken, upload.single('file'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  const inputPath = req.file.path;
+  const outputPath = path.join('uploads', `${req.file.filename}_report.json`);
+
+  const pythonProcess = spawn('python', [
+    'analyzer.py',
+    '--input', inputPath,
+    '--output', outputPath
+  ]);
+
+  pythonProcess.stderr.on('data', (data) => console.error(`Python Error: ${data}`));
+
+  pythonProcess.on('close', (code) => {
+    if (code !== 0) {
+      return res.status(500).json({ error: 'Anomaly engine failed to process file.' });
+    }
+
+    fs.readFile(outputPath, 'utf8', (err, data) => {
+      if (err) return res.status(500).json({ error: 'Failed to read results' });
+      
+      // Cleanup temp files
+      fs.unlink(inputPath, () => {});
+      fs.unlink(outputPath, () => {});
+
+      res.json(JSON.parse(data));
+    });
+  });
 });
 
 app.listen(port, () => {
