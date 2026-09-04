@@ -223,8 +223,7 @@ app.post('/api/chat', authenticateToken, async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+    
     const systemContext = `
 You are an expert AI financial auditor and forensic accountant. 
 The user is viewing an AI-generated audit report. Here is the anomaly data from their ledger:
@@ -235,7 +234,23 @@ Answer the user's questions clearly, professionally, and concisely based ONLY on
 
     const fullPrompt = `${systemContext}\n\nUser Question: ${prompt}`;
 
-    const result = await model.generateContent(fullPrompt);
+    let result;
+    try {
+      // First try the default flash model
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      result = await model.generateContent(fullPrompt);
+    } catch (e1) {
+      console.warn("Failed with gemini-1.5-flash, trying gemini-1.5-pro...");
+      try {
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+        result = await model.generateContent(fullPrompt);
+      } catch (e2) {
+        console.warn("Failed with gemini-1.5-pro, trying gemini-pro...");
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        result = await model.generateContent(fullPrompt);
+      }
+    }
+
     const response = await result.response;
     const text = response.text();
 
