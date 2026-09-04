@@ -35,6 +35,10 @@ const initDB = async () => {
       // Add password column if it doesn't exist (for traditional auth)
       await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password VARCHAR(255);`);
       
+      // Add OTP columns for password reset
+      await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_otp VARCHAR(10);`);
+      await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_expires_at TIMESTAMP WITH TIME ZONE;`);
+      
       await db.query(`
         CREATE TABLE IF NOT EXISTS reports (
           id SERIAL PRIMARY KEY,
@@ -119,6 +123,85 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Server error during login' });
+  }
+});
+
+const nodemailer = require('nodemailer');
+
+app.post('/api/auth/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+
+  try {
+    const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+    await db.query(
+      'UPDATE users SET reset_otp = $1, otp_expires_at = $2 WHERE email = $3',
+      [otp, expiresAt, email]
+    );
+
+    // Send email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD
+      }
+    });
+
+    const mailOptions = {
+      from: process.env.SMTP_EMAIL,
+      to: email,
+      subject: 'Password Reset OTP - Auditly',
+      text: `Your OTP for password reset is: ${otp}\n\nIt is valid for 10 minutes. Do not share it with anyone.`
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ message: 'OTP sent successfully to your email.' });
+
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Server error sending OTP' });
+  }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+  if (!email || !otp || !newPassword) {
+    return res.status(400).json({ error: 'Email, OTP, and new password are required' });
+  }
+
+  try {
+    const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    const user = result.rows[0];
+
+    if (user.reset_otp !== otp) {
+      return res.status(400).json({ error: 'Invalid OTP' });
+    }
+
+    if (new Date() > new Date(user.otp_expires_at)) {
+      return res.status(400).json({ error: 'OTP has expired' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await db.query(
+      'UPDATE users SET password = $1, reset_otp = NULL, otp_expires_at = NULL WHERE email = $2',
+      [hashedPassword, email]
+    );
+
+    res.json({ message: 'Password reset successful. You can now log in.' });
+
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ error: 'Server error resetting password' });
   }
 });
 
