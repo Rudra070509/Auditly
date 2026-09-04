@@ -200,6 +200,13 @@ export default function App() {
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260816_125506_3a597378-ec85-4ebd-bd22-03b45508ac62.mp4"
           ></video>
 
+          {!isLoggedIn && (
+            <div className="inline-flex items-center space-x-2.5 bg-slate-900/5 border border-slate-900/20 rounded-full px-5 py-1.5 text-sm font-medium text-slate-800 mb-6 backdrop-blur-sm z-10">
+              <span className="w-2 h-2 rounded-full bg-[#4ade80]" />
+              <span>Next-Gen Audit Intelligence for CAs & SMEs</span>
+            </div>
+          )}
+
           <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
             Auditly.
           </h1>
