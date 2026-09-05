@@ -563,10 +563,6 @@ export default function Dashboard({ setHasReport }) {
                     <ShieldAlert size={18} className="text-red-500" />
                     <span>Critical High-Risk Findings</span>
                   </h3>
-                  <button className="text-xs text-brand-blue hover:text-blue-400 font-semibold flex items-center space-x-1 uppercase tracking-wider">
-                    <span>View Full Log</span>
-                    <ArrowUpRight size={14} />
-                  </button>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm text-slate-400">
