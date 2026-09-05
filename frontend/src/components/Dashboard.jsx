@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, AlertTriangle, Activity, TrendingUp, ArrowUpRight, Search, Clock, X } from 'lucide-react';
+import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, AlertTriangle, Activity, TrendingUp, ArrowUpRight, Search, Clock, X, Settings } from 'lucide-react';
 import { ComposedChart, Line, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, Cell, PieChart, Pie } from 'recharts';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -340,13 +340,13 @@ export default function Dashboard({ setHasReport }) {
           </div>
 
           {/* Optional Manual Column Mapping Trigger */}
-          <div className="w-full flex justify-center mt-3 mb-2 relative z-20">
+          <div className="w-full flex justify-center mt-4 mb-2 relative z-20">
             <button 
               onClick={() => setShowColumnMapping(true)}
-              className="text-slate-500 text-xs font-semibold hover:text-brand-blue flex items-center space-x-1 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-600 text-sm font-semibold hover:border-brand-blue hover:text-brand-blue shadow-sm transition-all"
             >
-              <span>Advanced: Manual Column Override</span>
-              <ArrowUpRight size={12} />
+              <Settings size={14} />
+              <span>Advanced: Manual Column Mapping</span>
             </button>
           </div>
           

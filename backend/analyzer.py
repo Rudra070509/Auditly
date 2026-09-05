@@ -476,10 +476,7 @@ def run_ai_audit_pipeline(csv_path):
         # ---------------------------------------------------------
         # Weights: ML (45%), Deterministic (45%), Benford (10%)
         combined_score = (ml_score_100 * 0.45) + (det_score_100 * 0.45) + (benford_score_100 * 0.10)
-        
-        # Override for externally labeled anomalies
-        if is_labeled_anomaly:
-            combined_score = max(combined_score, 85.0)
+        # NOTE: is_labeled_anomaly is used for reference only, not to override computed scores
 
         # Classify severity
         if combined_score >= 80:
