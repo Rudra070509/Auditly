@@ -1,10 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UploadCloud, CheckCircle, Zap, ShieldAlert, BarChart2, DollarSign, FileText, AlertTriangle, Activity, TrendingUp, ArrowUpRight, Search, Clock, X } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, Cell, PieChart, Pie } from 'recharts';
+import { ComposedChart, Line, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, Cell, PieChart, Pie } from 'recharts';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import dashboardBg from '../assets/dashboard_bg.png';
+import ClientManagementModal from './ClientManagementModal';
+import AICopilotModal from './AICopilotModal';
+import ColumnMappingModal from './ColumnMappingModal';
 
 export default function Dashboard({ setHasReport }) {
   const [file, setFile] = useState(null);
@@ -13,6 +16,32 @@ export default function Dashboard({ setHasReport }) {
   const [isExporting, setIsExporting] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [historyReports, setHistoryReports] = useState([]);
+  
+  // New States for Opt-in Features
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [showClientModal, setShowClientModal] = useState(false);
+  const [showAICopilot, setShowAICopilot] = useState(false);
+  const [selectedAnomaly, setSelectedAnomaly] = useState(null);
+  const [showColumnMapping, setShowColumnMapping] = useState(false);
+
+  React.useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const fetchClients = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/clients', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setClients(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const exportToPDF = async () => {
     const element = document.getElementById('data-section');
@@ -49,7 +78,8 @@ export default function Dashboard({ setHasReport }) {
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/reports', {
+      const url = selectedClient ? `http://localhost:3000/api/reports?client_id=${selectedClient.id}` : 'http://localhost:3000/api/reports';
+      const res = await fetch(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (res.ok) {
@@ -97,9 +127,17 @@ export default function Dashboard({ setHasReport }) {
     e.stopPropagation();
     if (!file) return;
     
+    if (!selectedClient) {
+      alert("Please choose a client from the dropdown at the top right before running the audit.");
+      return;
+    }
+    
     setIsScanning(true);
     const formData = new FormData();
     formData.append('file', file);
+    if (selectedClient) {
+      formData.append('client_id', selectedClient.id);
+    }
     
     try {
       const token = localStorage.getItem('token');
@@ -129,22 +167,58 @@ export default function Dashboard({ setHasReport }) {
     }
   };
 
-  // Mocked/Enhanced data for professional chart rendering
-  const trendData = [
-    { time: '08:00', volume: 1200, anomalies: 40 },
-    { time: '10:00', volume: 2100, anomalies: 120 },
-    { time: '12:00', volume: 1800, anomalies: 80 },
-    { time: '14:00', volume: 3200, anomalies: 250 },
-    { time: '16:00', volume: 2800, anomalies: 90 },
-    { time: '18:00', volume: 1500, anomalies: 30 },
-  ];
+  // --- Dynamic Data Generation from Backend Report ---
+  let trendData = [];
+  let categoryData = [];
+  let avgConfidence = 0.0;
 
-  const categoryData = [
-    { name: 'Benford Law Violation', count: 45, color: '#ef4444' },
-    { name: 'Weekend Postings', count: 28, color: '#f59e0b' },
-    { name: 'Duplicate Amounts', count: 15, color: '#3b82f6' },
-    { name: 'Round Numbers', count: 12, color: '#8b5cf6' },
-  ];
+  if (report && report.anomalies && report.anomalies.length > 0) {
+    // 1. Generate Category Data (Donut Chart)
+    const counts = {};
+    let totalConfidence = 0;
+    
+    report.anomalies.forEach(a => {
+      // Safely access the primary flag type from the new backend architecture
+      const type = (a.flags && a.flags.length > 0) ? a.flags[0].type : 'Unknown Anomaly';
+      counts[type] = (counts[type] || 0) + 1;
+      totalConfidence += (a.ai_confidence || 90);
+    });
+    
+    avgConfidence = (totalConfidence / report.anomalies.length).toFixed(1);
+    
+    const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6', '#10b981', '#ec4899'];
+    categoryData = Object.keys(counts).map((key, index) => ({
+      name: key,
+      count: counts[key],
+      color: colors[index % colors.length]
+    })).sort((a, b) => b.count - a.count);
+
+      // 2. Generate Yearly Anomalies Data
+      const yearGroups = {};
+      report.anomalies.forEach(a => {
+        let year = 'Unknown';
+        if (a.date) {
+          const match = a.date.match(/\b(20\d{2})\b/);
+          if (match) {
+            year = match[1];
+          }
+        }
+        yearGroups[year] = (yearGroups[year] || 0) + 1;
+      });
+
+      const sortedYears = Object.keys(yearGroups).sort();
+      trendData = sortedYears.map(year => ({
+        year: year,
+        Anomalies: yearGroups[year]
+      }));
+    } else {
+      // Fallback/Empty state data if no report yet
+      trendData = [];
+    categoryData = [
+      { name: 'Awaiting Scan', count: 1, color: '#334155' }
+    ];
+    avgConfidence = 0.0;
+  }
 
   const totalFaultAmount = report?.anomalies?.reduce((acc, curr) => acc + (curr.amount || 0), 0) || 0;
   const formattedFaultAmount = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(totalFaultAmount);
@@ -157,23 +231,55 @@ export default function Dashboard({ setHasReport }) {
   return (
     <div className="w-full flex flex-col items-center">
       {/* SECTION 1: Dashboard & Import (Image Background) */}
-      <div className="relative w-full flex flex-col items-center justify-center min-h-[75vh] pt-16 pb-16 overflow-hidden px-8 bg-white">
-        <img 
-          src={dashboardBg} 
-          alt="Dashboard Background" 
-          className="absolute inset-0 w-full h-full object-cover z-0 object-center"
-        />
+        <div className="relative w-full flex flex-col items-center justify-center min-h-[75vh] pt-16 pb-16 overflow-hidden px-8 bg-white">
+          <img 
+            src={dashboardBg} 
+            alt="Dashboard Background" 
+            className="absolute inset-0 w-full h-full object-cover z-0 object-center"
+          />
 
-        <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10 text-slate-900" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
-          Auditly.
-        </h1>
+          {/* Top Control Bar: Client Selector + History */}
+          <div className="absolute top-4 right-8 z-20 flex items-center space-x-3">
+            <select
+              value={selectedClient?.id || ''}
+              onChange={(e) => {
+                if (e.target.value === 'add_new') {
+                  setShowClientModal(true);
+                  // Reset select back to current client so 'add_new' doesn't stay selected
+                  e.target.value = selectedClient?.id || '';
+                  return;
+                }
+                const found = clients.find(c => c.id === parseInt(e.target.value));
+                setSelectedClient(found || null);
+              }}
+              className="bg-white/90 backdrop-blur border border-slate-200 text-slate-700 px-3 py-2 rounded-lg font-semibold text-sm shadow-sm focus:outline-none focus:border-brand-blue cursor-pointer"
+            >
+              <option value="" disabled>Choose Client...</option>
+              {clients.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+              <option disabled>──────────</option>
+              <option value="add_new">➕ Manage / Add Client...</option>
+            </select>
+            <button
+              onClick={fetchHistory}
+              className="bg-white/90 backdrop-blur border border-slate-200 text-slate-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-white shadow-sm flex items-center space-x-2"
+            >
+              <Clock size={16} />
+              <span>Audit History</span>
+            </button>
+          </div>
+
+          <h1 className="text-[110px] md:text-[160px] font-extrabold tracking-tight leading-none mb-4 z-10 text-slate-900" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
+            Auditly.
+          </h1>
 
         <div className="w-full max-w-4xl mx-auto z-10 relative flex flex-col items-center mt-4">
           <button 
             onClick={handleScan}
             disabled={!file || isScanning}
             className={`mb-10 px-10 py-4 rounded-xl font-bold text-base transition-all duration-300 flex items-center space-x-3 shadow-lg ${
-              file && !isScanning 
+              file && !isScanning
                 ? 'bg-brand-blue text-white hover:bg-blue-700 hover:-translate-y-1 hover:shadow-xl cursor-pointer ring-4 ring-blue-500/30' 
                 : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300'
             }`}
@@ -232,6 +338,18 @@ export default function Dashboard({ setHasReport }) {
               )}
             </div>
           </div>
+
+          {/* Optional Manual Column Mapping Trigger */}
+          <div className="w-full flex justify-center mt-3 mb-2 relative z-20">
+            <button 
+              onClick={() => setShowColumnMapping(true)}
+              className="text-slate-500 text-xs font-semibold hover:text-brand-blue flex items-center space-x-1 transition-colors"
+            >
+              <span>Advanced: Manual Column Override</span>
+              <ArrowUpRight size={12} />
+            </button>
+          </div>
+          
         </div>
       </div>
 
@@ -265,13 +383,6 @@ export default function Dashboard({ setHasReport }) {
                     <FileText size={16} />
                   )}
                   <span>{isExporting ? 'Generating...' : 'Export PDF'}</span>
-                </button>
-                <button 
-                  onClick={fetchHistory}
-                  className="bg-brand-blue hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-[0_0_15px_rgba(37,99,235,0.4)] flex items-center space-x-2"
-                >
-                  <Clock size={16} />
-                  <span>History</span>
                 </button>
               </div>
             )}
@@ -349,7 +460,7 @@ export default function Dashboard({ setHasReport }) {
                     </div>
                     <span className="text-xs font-mono text-slate-500">SCORE</span>
                   </div>
-                  <div className="text-3xl font-black text-white tracking-tight">94.2<span className="text-lg text-slate-500">%</span></div>
+                  <div className="text-3xl font-black text-white tracking-tight">{avgConfidence}<span className="text-lg text-slate-500">%</span></div>
                   <div className="text-sm text-slate-400 mt-1 font-medium">AI Confidence Score</div>
                 </div>
               </div>
@@ -360,41 +471,43 @@ export default function Dashboard({ setHasReport }) {
                 {/* Main Trend Chart */}
                 <div className="lg:col-span-2 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 backdrop-blur-sm">
                   <div className="flex justify-between items-center mb-6">
-                    <div>
-                      <h3 className="text-base font-bold text-white flex items-center space-x-2">
-                        <span>Transaction Volume vs Suspicious Flags</span>
-                      </h3>
-                      <p className="text-xs text-slate-400 mt-1">Hourly density distribution</p>
+                      <div>
+                        <h3 className="text-base font-bold text-white flex items-center space-x-2">
+                          <span>Anomaly Frequency by Year</span>
+                        </h3>
+                        <p className="text-xs text-slate-400 mt-1">Total high-risk records detected per year</p>
+                      </div>
+                      <div className="flex items-center space-x-4 text-xs font-medium">
+                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-rose-500"></div><span className="text-slate-300">Total Anomalies</span></div>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-4 text-xs font-medium">
-                      <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-brand-blue"></div><span className="text-slate-300">Total Vol</span></div>
-                      <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 rounded-sm bg-red-500"></div><span className="text-slate-300">Anomalies</span></div>
-                    </div>
-                  </div>
-                  <div className="h-72 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={trendData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
-                        <defs>
-                          <linearGradient id="volGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                          </linearGradient>
-                          <linearGradient id="anomGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.5}/>
-                            <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                        <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{fontSize: 11, fill: '#64748b'}} dy={10} />
-                        <YAxis axisLine={false} tickLine={false} tick={{fontSize: 11, fill: '#64748b'}} />
-                        <Tooltip 
-                          contentStyle={{ backgroundColor: '#0f172a', borderRadius: '12px', border: '1px solid #1e293b', color: '#f8fafc', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }} 
-                          itemStyle={{ fontSize: '13px', fontWeight: '500' }}
-                          labelStyle={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}
-                        />
-                        <Area type="monotone" dataKey="volume" name="Valid Volume" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#volGrad)" />
-                        <Area type="monotone" dataKey="anomalies" name="Flagged Volume" stroke="#ef4444" strokeWidth={3} fillOpacity={1} fill="url(#anomGrad)" />
-                      </AreaChart>
+                    <div className="h-72 w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={trendData} margin={{ top: 20, right: 20, left: -20, bottom: 0 }}>
+                          <defs>
+                            <linearGradient id="anomYearGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.8}/>
+                              <stop offset="95%" stopColor="#f43f5e" stopOpacity={0.2}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                          <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#64748b', fontWeight: 'bold'}} dy={10} />
+                          <YAxis 
+                            axisLine={false} 
+                            tickLine={false} 
+                            tick={{fontSize: 11, fill: '#64748b'}}
+                            allowDecimals={false}
+                          />
+                          <Tooltip 
+                            cursor={{ fill: 'transparent' }}
+                            contentStyle={{ backgroundColor: '#0f172a', borderRadius: '12px', border: '1px solid #1e293b', color: '#f8fafc', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }} 
+                            itemStyle={{ fontSize: '13px', fontWeight: '500' }}
+                            labelStyle={{ color: '#94a3b8', fontSize: '13px', marginBottom: '6px', fontWeight: 'bold' }}
+                            formatter={(value) => [value, 'Anomalies']}
+                            labelFormatter={(label) => `Year: ${label}`}
+                          />
+                          <Bar dataKey="Anomalies" fill="url(#anomYearGrad)" radius={[4, 4, 0, 0]} maxBarSize={60} />
+                        </BarChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
@@ -430,7 +543,7 @@ export default function Dashboard({ setHasReport }) {
                     </ResponsiveContainer>
                   </div>
                   <div className="space-y-3 mt-2">
-                    {categoryData.slice(0,3).map((item, idx) => (
+                    {categoryData.map((item, idx) => (
                       <div key={idx} className="flex justify-between items-center text-sm">
                         <div className="flex items-center space-x-2">
                           <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }}></div>
@@ -468,34 +581,39 @@ export default function Dashboard({ setHasReport }) {
                     </thead>
                     <tbody className="divide-y divide-slate-800/50">
                       {(report?.anomalies?.slice(0, 5) || [
-                        { _id: 'VOU-8492', amount: 450000, anomaly_reason: 'Amount violates Benford Law expected distribution', risk_score: 98.4 },
-                        { _id: 'VOU-1104', amount: 89000, anomaly_reason: 'Duplicate entry detected in same fiscal week', risk_score: 92.1 },
-                        { _id: 'VOU-3091', amount: 15000, anomaly_reason: 'Suspicious weekend posting timestamp', risk_score: 87.5 },
-                        { _id: 'VOU-7742', amount: 100000, anomaly_reason: 'Suspiciously round number threshold', risk_score: 85.0 }
+                        { voucher_no: 'VOU-8492', amount: 450000, flags: [{type: 'Benford Law Violation'}], combined_risk_score: 98.4 },
+                        { voucher_no: 'VOU-1104', amount: 89000, flags: [{type: 'Duplicate Entry'}], combined_risk_score: 92.1 }
                       ]).map((item, idx) => (
                         <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
                           <td className="px-6 py-4 font-mono text-slate-300">
-                            {item.Voucher || item.id || item._id || `VOU-${9000 - idx*132}`}
+                            {item.voucher_no || item._id || `VOU-${9000 - idx*132}`}
                           </td>
                           <td className="px-6 py-4 font-medium text-white">
-                            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(item.amount || item.Amount || (450000 - idx*40000))}
+                            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(item.amount || (450000 - idx*40000))}
                           </td>
                           <td className="px-6 py-4">
                             <span className="bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1 rounded-full text-xs">
-                              {item.anomaly_reason || item.Reason || 'Structural Anomaly Detected'}
+                              {item.flags?.[0]?.type || 'Structural Anomaly Detected'}
                             </span>
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center space-x-2">
                               <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div className="bg-red-500 h-full" style={{ width: `${item.risk_score || (95 - idx*3)}%` }}></div>
+                                <div className="bg-red-500 h-full" style={{ width: `${item.combined_risk_score || (95 - idx*3)}%` }}></div>
                               </div>
-                              <span className="font-mono text-red-400">{item.risk_score || (95 - idx*3).toFixed(1)}%</span>
+                              <span className="font-mono text-red-400">{item.combined_risk_score || (95 - idx*3).toFixed(1)}</span>
                             </div>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-700 rounded-lg">
-                              <ArrowUpRight size={16} />
+                            <button 
+                              onClick={() => {
+                                setSelectedAnomaly(item);
+                                setShowAICopilot(true);
+                              }}
+                              className="text-brand-blue hover:text-white transition-colors px-3 py-1.5 hover:bg-brand-blue/20 bg-brand-blue/10 border border-brand-blue/30 rounded-lg text-xs font-semibold flex items-center space-x-1 ml-auto"
+                            >
+                              <Zap size={14} />
+                              <span>Ask AI</span>
                             </button>
                           </td>
                         </tr>
@@ -558,6 +676,38 @@ export default function Dashboard({ setHasReport }) {
           </div>
         </div>
       )}
+
+      {/* Opt-in Advanced Feature Modals */}
+      <ClientManagementModal
+        isOpen={showClientModal}
+        onClose={() => setShowClientModal(false)}
+        clients={clients}
+        selectedClient={selectedClient}
+        onSelectClient={(c) => {
+          setSelectedClient(c);
+          fetchHistory(); // refresh history when client changes
+        }}
+        onAddClient={fetchClients}
+        onDeleteClient={fetchClients}
+        theme="light"
+      />
+
+      <AICopilotModal
+        isOpen={showAICopilot}
+        onClose={() => setShowAICopilot(false)}
+        selectedTx={selectedAnomaly}
+        allAnomalies={report?.anomalies || []}
+        theme="dark"
+      />
+
+      <ColumnMappingModal
+        isOpen={showColumnMapping}
+        onClose={() => setShowColumnMapping(false)}
+        excelHeaders={['date', 'description', 'amount', 'voucher_no']}
+        sampleRow={{}}
+        onConfirmMapping={() => setShowColumnMapping(false)}
+        theme="light"
+      />
 
     </div>
   );

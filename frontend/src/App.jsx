@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { UploadCloud, CheckCircle, BarChart2, ShieldAlert, FileText, Zap, Play, ArrowRight, ArrowUp, Server, Shield, Search, Eye, Mail, Phone, ChevronRight, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import Login from './Login';
 import CompanyProfile from './components/CompanyProfile';
 import Vision from './components/Vision';
@@ -236,10 +237,12 @@ export default function App() {
                   <span>Test Simulator</span>
                 </a>
               </div>
-            </div>
-          ) : (
-            <Dashboard />
-          )}
+              </div>
+            ) : (
+              <ErrorBoundary>
+                <Dashboard />
+              </ErrorBoundary>
+            )}
 
         {/* Floating Stats */}
         {!isLoggedIn && (

@@ -48,6 +48,19 @@ const initDB = async () => {
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
       `);
+      
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS clients (
+          id SERIAL PRIMARY KEY,
+          user_id INTEGER REFERENCES users(id),
+          name VARCHAR(255) NOT NULL,
+          industry VARCHAR(255),
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+
+      await db.query(`ALTER TABLE reports ADD COLUMN IF NOT EXISTS client_id INTEGER REFERENCES clients(id);`);
+      
       console.log('Database tables initialized.');
     }
   } catch (err) {
@@ -296,11 +309,12 @@ app.post('/api/scan', authenticateToken, upload.single('file'), async (req, res)
       
       try {
         const reportJson = JSON.parse(data);
+        const clientId = req.body.client_id || null;
         
         // Save report to database
         const result = await db.query(
-          'INSERT INTO reports (user_id, filename, report_data) VALUES ($1, $2, $3) RETURNING id, created_at',
-          [req.user.userId, req.file.originalname, reportJson]
+          'INSERT INTO reports (user_id, client_id, filename, report_data) VALUES ($1, $2, $3, $4) RETURNING id, created_at',
+          [req.user.userId, clientId, req.file.originalname, reportJson]
         );
         
         const savedReportId = result.rows[0].id;
@@ -324,12 +338,61 @@ app.post('/api/scan', authenticateToken, upload.single('file'), async (req, res)
   });
 });
 
-app.get('/api/reports', authenticateToken, async (req, res) => {
+app.get('/api/clients', authenticateToken, async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT id, filename, created_at FROM reports WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT id, name, industry, created_at FROM clients WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.userId]
     );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching clients:', err);
+    res.status(500).json({ error: 'Failed to fetch clients' });
+  }
+});
+
+app.post('/api/clients', authenticateToken, async (req, res) => {
+  try {
+    const { name, industry } = req.body;
+    if (!name) return res.status(400).json({ error: 'Client name is required' });
+    
+    const result = await db.query(
+      'INSERT INTO clients (user_id, name, industry) VALUES ($1, $2, $3) RETURNING id, name, industry, created_at',
+      [req.user.userId, name, industry || '']
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error creating client:', err);
+    res.status(500).json({ error: 'Failed to create client' });
+  }
+});
+
+app.delete('/api/clients/:id', authenticateToken, async (req, res) => {
+  try {
+    await db.query('DELETE FROM reports WHERE client_id = $1 AND user_id = $2', [req.params.id, req.user.userId]);
+    await db.query('DELETE FROM clients WHERE id = $1 AND user_id = $2', [req.params.id, req.user.userId]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error deleting client:', err);
+    res.status(500).json({ error: 'Failed to delete client' });
+  }
+});
+
+app.get('/api/reports', authenticateToken, async (req, res) => {
+  try {
+    const clientId = req.query.client_id;
+    let result;
+    if (clientId) {
+      result = await db.query(
+        'SELECT id, filename, created_at FROM reports WHERE user_id = $1 AND client_id = $2 ORDER BY created_at DESC',
+        [req.user.userId, clientId]
+      );
+    } else {
+      result = await db.query(
+        'SELECT id, filename, created_at FROM reports WHERE user_id = $1 ORDER BY created_at DESC',
+        [req.user.userId]
+      );
+    }
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching reports:', err);

@@ -26,6 +26,14 @@ import argparse
 from datetime import datetime
 from collections import defaultdict
 
+def safe_float(val):
+    if not val:
+        return 0.0
+    try:
+        return float(val)
+    except ValueError:
+        return 0.0
+
 # =============================================================================
 # 1. PURE-PYTHON / ZERO-DEPENDENCY ISOLATION FOREST IMPLEMENTATION
 # =============================================================================
@@ -171,19 +179,15 @@ def analyze_benfords_law(amounts):
 
 def generate_ai_fix(voucher, anomaly_type):
     """Synthesizes balanced double-entry accounting adjustments and statutory protocols."""
-    inv_total = safe_float(voucher.get('Invoice_Total'))
-    tax_val = safe_float(voucher.get('Taxable_Value'))
-    amt = safe_float(voucher.get('amount'))
-    val = abs(inv_total if inv_total != 0.0 else (tax_val if tax_val != 0.0 else amt))
-    
+    val = abs(safe_float(voucher.get('Invoice_Total')) or safe_float(voucher.get('Taxable_Value')) or safe_float(voucher.get('amount')))
     fmt_val = f"₹{val:,.2f}"
     txn_id = voucher.get('Voucher_No') or voucher.get('transaction_id') or 'VOUCH'
     party = voucher.get('Party_Name') or voucher.get('account_head') or 'General Ledger'
-    qty = safe_float(voucher.get('Quantity'), 1.0)
-    rate = safe_float(voucher.get('Rate'), 0.0)
-    taxable = safe_float(voucher.get('Taxable_Value'), val)
+    qty = safe_float(voucher.get('Quantity') or 1)
+    rate = safe_float(voucher.get('Rate') or 0)
+    taxable = safe_float(voucher.get('Taxable_Value') or val)
 
-    if 'Tax' in anomaly_type or 'Calculation' in anomaly_type or 'Math' in anomaly_type:
+    if 'Tax' in anomaly_type or 'Calculation' in anomaly_type:
         expected = abs(qty) * rate
         diff = abs(abs(taxable) - expected)
         fmt_diff = f"₹{diff:,.2f}"
@@ -282,60 +286,6 @@ def generate_ai_fix(voucher, anomaly_type):
 # 4. FULL PIPELINE & ANOMALY DETECTOR
 # =============================================================================
 
-def safe_float(val, fallback=0.0):
-    if not val:
-        return fallback
-    if isinstance(val, str):
-        val = val.replace(',', '').strip()
-    try:
-        return float(val)
-    except ValueError:
-        return fallback
-
-def normalize_vouchers(vouchers):
-    """Dynamically maps completely arbitrary CSV headers to the standard expected keys."""
-    if not vouchers: return vouchers
-    fieldnames = list(vouchers[0].keys())
-    f_map = {str(f).lower().strip(): f for f in fieldnames if f}
-    mapping = {}
-
-    def map_aliases(standard_key, aliases):
-        if standard_key.lower() in f_map:
-            mapping[standard_key] = f_map[standard_key.lower()]
-            return
-        for alias in aliases:
-            if alias in f_map:
-                mapping[standard_key] = f_map[alias]
-                return
-        for alias in aliases:
-            for f_low, orig_f in f_map.items():
-                if alias in f_low and standard_key not in mapping:
-                    mapping[standard_key] = orig_f
-                    return
-        mapping[standard_key] = standard_key 
-
-    map_aliases('Invoice_Total', ['invoice_total', 'total amount', 'net amount', 'total', 'net', 'balance', 'credit', 'debit', 'value'])
-    map_aliases('Taxable_Value', ['taxable', 'tax value', 'base', 'subtotal'])
-    map_aliases('amount', ['amount', 'price', 'amt', 'val'])
-    map_aliases('Quantity', ['quantity', 'qty', 'count', 'units'])
-    map_aliases('Rate', ['rate', 'unit price', 'price'])
-    map_aliases('CGST', ['cgst', 'central tax'])
-    map_aliases('SGST', ['sgst', 'state tax'])
-    map_aliases('IGST', ['igst', 'integrated tax'])
-    map_aliases('Voucher_No', ['voucher', 'transaction', 'id', 'ref', 'no', 'number', 'doc'])
-    map_aliases('DateTime', ['date', 'time', 'dt', 'timestamp'])
-    map_aliases('Party_Name', ['party', 'name', 'account', 'head', 'customer', 'vendor', 'client', 'desc', 'particulars'])
-    map_aliases('Record_Status', ['status', 'anomaly', 'label', 'record'])
-
-    normalized = []
-    for v in vouchers:
-        new_v = dict(v)
-        for std_key, act_key in mapping.items():
-            if act_key in v and act_key != std_key:
-                new_v[std_key] = v[act_key]
-        normalized.append(new_v)
-    return normalized
-
 def run_ai_audit_pipeline(csv_path):
     """Loads CSV, fits Isolation Forest, tests Benford's Law, and generates fixes."""
     if not os.path.exists(csv_path):
@@ -345,8 +295,6 @@ def run_ai_audit_pipeline(csv_path):
         reader = csv.DictReader(f)
         vouchers = list(reader)
 
-    vouchers = normalize_vouchers(vouchers)
-
     print(f"\n[+] Ingested {len(vouchers):,} ledger vouchers from: {os.path.basename(csv_path)}")
 
     # Extract numerical features for Tabular ML Isolation Forest
@@ -354,20 +302,14 @@ def run_ai_audit_pipeline(csv_path):
     feature_matrix = []
 
     for v in vouchers:
-        inv_total = safe_float(v.get('Invoice_Total'))
-        tax_val = safe_float(v.get('Taxable_Value'))
-        amt = safe_float(v.get('amount'))
-        
-        # Determine value (fallback gracefully)
-        val = abs(inv_total if inv_total != 0.0 else (tax_val if tax_val != 0.0 else amt))
+        val = abs(safe_float(v.get('Invoice_Total')) or safe_float(v.get('Taxable_Value')) or safe_float(v.get('amount')))
         amounts.append(val)
-        
-        taxable = safe_float(v.get('Taxable_Value'), 0.0)
-        qty = safe_float(v.get('Quantity'), 1.0)
-        rate = safe_float(v.get('Rate'), 0.0)
-        cgst = safe_float(v.get('CGST'), 0.0)
-        sgst = safe_float(v.get('SGST'), 0.0)
-        igst = safe_float(v.get('IGST'), 0.0)
+        taxable = safe_float(v.get('Taxable_Value') or 0)
+        qty = safe_float(v.get('Quantity') or 1)
+        rate = safe_float(v.get('Rate') or 0)
+        cgst = safe_float(v.get('CGST') or 0)
+        sgst = safe_float(v.get('SGST') or 0)
+        igst = safe_float(v.get('IGST') or 0)
         tot_tax = cgst + sgst + igst
 
         # Feature 0: log amount
@@ -398,127 +340,82 @@ def run_ai_audit_pipeline(csv_path):
     
     for i, v in enumerate(vouchers):
         vector = feature_matrix[i]
-        ml_score_raw = iforest.score(vector, len(vouchers))
+        ml_score = iforest.score(vector, len(vouchers))
         val = amounts[i]
-        qty = safe_float(v.get('Quantity'), 1.0)
-        rate = safe_float(v.get('Rate'), 0.0)
-        taxable = safe_float(v.get('Taxable_Value'), 0.0)
-        cgst = safe_float(v.get('CGST'), 0.0)
-        sgst = safe_float(v.get('SGST'), 0.0)
-        igst = safe_float(v.get('IGST'), 0.0)
+        qty = float(v.get('Quantity') or 1)
+        rate = float(v.get('Rate') or 0)
+        taxable = float(v.get('Taxable_Value') or 0)
+        cgst = float(v.get('CGST') or 0)
+        sgst = float(v.get('SGST') or 0)
+        igst = float(v.get('IGST') or 0)
         tot_tax = cgst + sgst + igst
-        tot_inv = safe_float(v.get('Invoice_Total'), 0.0)
+        tot_inv = float(v.get('Invoice_Total') or 0)
         flags = []
 
+        # Ground truth check if CSV contains explicit ANOMALY label
         is_labeled_anomaly = v.get('Record_Status') == 'ANOMALY'
 
-        # ---------------------------------------------------------
-        # COMPONENT 1: Unsupervised ML Score (0-100)
-        # ---------------------------------------------------------
-        ml_score_100 = min(100.0, ml_score_raw * 100.0)
-
-        # ---------------------------------------------------------
-        # COMPONENT 2: Deterministic Violation Score (0-100)
-        # ---------------------------------------------------------
-        det_score = 0.0
-
+        # Rule 1: Valuation Mismatch (Qty * Rate != Taxable)
         if qty != 0 and rate > 0 and abs(taxable) > 0:
             expected_taxable = abs(qty) * rate
             diff = abs(abs(taxable) - expected_taxable)
             if diff > 100 and (diff / expected_taxable) > 0.15:
-                det_score += 45
                 flags.append({
                     'type': 'Tax Calculation Inconsistency',
-                    'description': f"Taxable Value (₹{taxable:,.2f}) deviates from Qty × Rate"
+                    'severity': 'High',
+                    'description': f"Taxable Value (₹{taxable:,.2f}) deviates from Quantity × Rate ({qty} × ₹{rate:,.2f} = ₹{expected_taxable:,.2f})"
                 })
 
+        # Rule 2: Negative Quantity with Positive Tax Liability
         if qty < 0 and tot_tax > 0:
-            det_score += 55
             flags.append({
-                'type': 'Illegal Tax Liability',
-                'description': f"Negative return qty ({qty}) paired with positive tax liability (+₹{tot_tax:,.2f})"
+                'type': 'Tax Calculation Inconsistency',
+                'severity': 'High',
+                'description': f"Negative return quantity ({qty}) paired with positive tax liability (+₹{tot_tax:,.2f})"
             })
 
+        # Rule 3: Zero-value Voucher
         if val == 0 and taxable == 0 and rate == 0:
-            det_score += 40
             flags.append({
-                'type': 'Zero-Value Dummy Entry',
-                'description': "Suspicious zero-monetary consideration voucher recorded"
+                'type': 'Zero-Value Voucher',
+                'severity': 'Medium',
+                'description': f"Zero-monetary consideration voucher recorded ({v.get('Voucher_No')})"
             })
 
+        # Rule 4: Total Invoice vs (Taxable + Tax) Math Check
         if taxable > 0 and tot_inv > 0:
             math_sum = taxable + tot_tax
             diff = abs(tot_inv - math_sum)
             if diff > 100 and (diff / tot_inv) > 0.05:
-                det_score += 45
                 flags.append({
-                    'type': 'Invoice Math Mismatch',
-                    'description': f"Total (₹{tot_inv:,.2f}) does not balance with Taxable + Tax (₹{math_sum:,.2f})"
+                    'type': 'Tax Calculation Inconsistency',
+                    'severity': 'Medium',
+                    'description': f"Invoice Total (₹{tot_inv:,.2f}) does not balance with Taxable + Tax (₹{math_sum:,.2f})"
                 })
 
-        det_score_100 = min(100.0, det_score)
-
-        # ---------------------------------------------------------
-        # COMPONENT 3: Benford Contextual Score (0-100)
-        # ---------------------------------------------------------
-        benford_score_100 = 0.0
-        if val >= 10:
-            digits = [c for c in str(val) if c in '123456789']
-            if digits:
-                first = int(digits[0])
-                if first in benford_results['tampered_digits']:
-                    benford_score_100 = 85.0
-                elif not benford_results['is_conforming']:
-                    benford_score_100 = 30.0
-
-        # ---------------------------------------------------------
-        # COMBINED AUDIT RISK SCORE (Weighted Aggregation)
-        # ---------------------------------------------------------
-        # Weights: ML (45%), Deterministic (45%), Benford (10%)
-        combined_score = (ml_score_100 * 0.45) + (det_score_100 * 0.45) + (benford_score_100 * 0.10)
-        
-        # Override for externally labeled anomalies
-        if is_labeled_anomaly:
-            combined_score = max(combined_score, 85.0)
-
-        # Classify severity
-        if combined_score >= 80:
-            severity = 'Critical'
-        elif combined_score >= 60:
-            severity = 'High'
-        elif combined_score >= 40:
-            severity = 'Medium'
-        else:
-            severity = 'Low'
-
-        # Only flag if it breaches the audit threshold (>= 40 score)
-        if combined_score >= 40:
-            if not flags:
+        # Rule 5: Isolation Forest High-Score Outlier
+        if ml_score >= 0.65 or is_labeled_anomaly:
+            if not any(f['type'] == 'Tax Calculation Inconsistency' for f in flags):
                 flags.append({
                     'type': 'Isolation Forest Outlier (ML)',
-                    'description': f"Unsupervised ML detected hidden multi-dimensional discrepancy."
+                    'severity': 'High' if ml_score >= 0.72 else 'Medium',
+                    'description': f"Unsupervised Isolation Forest detected multi-feature multivariate anomaly (Score: {ml_score:.3f})"
                 })
-            
-            # Update all flags with severity
-            for f in flags:
-                f['severity'] = severity
 
+        # If any anomaly detected, synthesize AI Fix
+        if flags:
             primary_type = flags[0]['type']
             ai_fix = generate_ai_fix(v, primary_type)
+            risk_score = 90 if flags[0]['severity'] == 'High' else 50
 
             anomalies_flagged.append({
                 'voucher_no': v.get('Voucher_No') or f"VOUCH-{i+1}",
                 'date': v.get('DateTime') or v.get('date'),
                 'account_head': v.get('Party_Name') or v.get('account_head'),
                 'amount': val,
-                'combined_risk_score': round(combined_score, 2),
-                'score_breakdown': {
-                    'ml_score': round(ml_score_100, 2),
-                    'deterministic_score': round(det_score_100, 2),
-                    'benford_score': round(benford_score_100, 2)
-                },
-                'severity': severity,
+                'ml_anomaly_score': round(ml_score, 3),
                 'ai_confidence': ai_fix['confidence'],
+                'risk_score_before': risk_score,
                 'risk_score_after_fix': ai_fix['projected_risk_score'],
                 'flags': flags,
                 'ai_suggested_fix': ai_fix
@@ -571,9 +468,8 @@ def main():
         fix = a['ai_suggested_fix']
         print(f"\n[{i}] VOUCHER: {a['voucher_no']} | Date: {a['date']} | Value: Rs. {a['amount']:,.2f}")
         print(f"    Account Head:     {a['account_head']}")
-        print(f"    Exception:        {a['flags'][0]['type']} (Combined Risk: {a['combined_risk_score']}/100 -> {a['risk_score_after_fix']}/100)")
-        print(f"    Score Breakdown:  ML: {a['score_breakdown']['ml_score']} | Math: {a['score_breakdown']['deterministic_score']} | Benford: {a['score_breakdown']['benford_score']}")
-        print(f"    AI Confidence:    {a['ai_confidence']}%")
+        print(f"    Exception:        {a['flags'][0]['type']} (Risk: {a['risk_score_before']}/100 -> {a['risk_score_after_fix']}/100)")
+        print(f"    AI Confidence:    {a['ai_confidence']}% | ML Isolation Score: {a['ml_anomaly_score']}")
         print(f"    Root Cause:       {a['flags'][0]['description']}")
         print(f"    AI Potential Fix: {fix['action_title']}")
         print(f"    Compliance Rule:  {fix['statutory_rule']}")

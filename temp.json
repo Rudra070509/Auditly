@@ -1,0 +1,3646 @@
+{
+  "total_vouchers_scanned": 25000,
+  "total_anomalies_flagged": 84,
+  "anomaly_rate_percent": 0.34,
+  "benford_analysis": {
+    "mad": 0.01098,
+    "is_conforming": true,
+    "tampered_digits": [],
+    "observed": {
+      "1": 0.33,
+      "2": 0.1742,
+      "3": 0.0996,
+      "4": 0.0874,
+      "5": 0.0841,
+      "6": 0.0582,
+      "7": 0.054,
+      "8": 0.055,
+      "9": 0.0574
+    },
+    "expected": {
+      "1": 0.301,
+      "2": 0.1761,
+      "3": 0.1249,
+      "4": 0.0969,
+      "5": 0.0792,
+      "6": 0.0669,
+      "7": 0.058,
+      "8": 0.0512,
+      "9": 0.0458
+    }
+  },
+  "anomalies": [
+    {
+      "voucher_no": "VCH-000015",
+      "date": "06-09-2026",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-000015"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-000262",
+      "date": "03-08-2025",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-000262"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-000330",
+      "date": "11-05-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-000330"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-000570",
+      "date": "22-05-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-000570"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-000649",
+      "date": "03-03-2027",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-000649"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-000698",
+      "date": "05-06-2026",
+      "account_head": "Nova Digital",
+      "amount": 3777282.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b93,777,282.00) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (3.0 \u00d7 \u20b950,363.76 = \u20b9151,091.28) diverges from ledger entry (\u20b93,777,282.00). Adjust inflated variance of \u20b93,626,190.72.",
+        "entries": [
+          {
+            "account": "Nova Digital",
+            "type": "Debit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Valuation discrepancy elimination (VCH-000698)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-001111",
+      "date": "06-07-2026",
+      "account_head": "Apex Infotech",
+      "amount": 16220.48,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.39,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b916,220.48",
+            "note": "Escrow segregation for VCH-001111"
+          },
+          {
+            "account": "Apex Infotech",
+            "type": "Credit",
+            "amount": "\u20b916,220.48",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-001475",
+      "date": "15-03-2027",
+      "account_head": "Metro Wholesale",
+      "amount": 59137.92,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 39.84,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b959,137.92",
+            "note": "Escrow segregation for VCH-001475"
+          },
+          {
+            "account": "Metro Wholesale",
+            "type": "Credit",
+            "amount": "\u20b959,137.92",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-001508",
+      "date": "17-03-2026",
+      "account_head": null,
+      "amount": 0.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 68.07,
+        "deterministic_score": 40.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 98,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Zero-Value Dummy Entry",
+          "description": "Suspicious zero-monetary consideration voucher recorded",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Cancel & Void Non-Financial Draft Voucher",
+        "statutory_rule": "SA 230 (Audit Documentation) & Rule 56 of CGST Rules",
+        "protocol": "Voucher VCH-001508 carries \u20b90 taxable amount and \u20b90 tax. Void voucher in Tally ERP with supervisory audit authorization.",
+        "entries": [
+          {
+            "account": "General Ledger",
+            "type": "Debit",
+            "amount": "\u20b90.00",
+            "note": "Cancellation of null voucher VCH-001508"
+          },
+          {
+            "account": "Audit Memory Memo Ledger",
+            "type": "Credit",
+            "amount": "\u20b90.00",
+            "note": "Voucher marked Void in audit trail"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 98
+      }
+    },
+    {
+      "voucher_no": "VCH-001628",
+      "date": "01-06-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-001628"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-001714",
+      "date": "18-09-2026",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-001714"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-002416",
+      "date": "21-03-2026",
+      "account_head": "Nova Digital",
+      "amount": 3777282.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b93,777,282.00) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (3.0 \u00d7 \u20b950,363.76 = \u20b9151,091.28) diverges from ledger entry (\u20b93,777,282.00). Adjust inflated variance of \u20b93,626,190.72.",
+        "entries": [
+          {
+            "account": "Nova Digital",
+            "type": "Debit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Valuation discrepancy elimination (VCH-002416)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-002562",
+      "date": "18-12-2025",
+      "account_head": null,
+      "amount": 176635.33,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.28,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9176,635.33",
+            "note": "Escrow segregation for VCH-002562"
+          },
+          {
+            "account": "General Ledger",
+            "type": "Credit",
+            "amount": "\u20b9176,635.33",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-002564",
+      "date": "24-01-2026",
+      "account_head": "Apex Infotech",
+      "amount": 16220.48,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.39,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b916,220.48",
+            "note": "Escrow segregation for VCH-002564"
+          },
+          {
+            "account": "Apex Infotech",
+            "type": "Credit",
+            "amount": "\u20b916,220.48",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-002708",
+      "date": "08-11-2025",
+      "account_head": null,
+      "amount": 0.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 68.07,
+        "deterministic_score": 40.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 98,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Zero-Value Dummy Entry",
+          "description": "Suspicious zero-monetary consideration voucher recorded",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Cancel & Void Non-Financial Draft Voucher",
+        "statutory_rule": "SA 230 (Audit Documentation) & Rule 56 of CGST Rules",
+        "protocol": "Voucher VCH-002708 carries \u20b90 taxable amount and \u20b90 tax. Void voucher in Tally ERP with supervisory audit authorization.",
+        "entries": [
+          {
+            "account": "General Ledger",
+            "type": "Debit",
+            "amount": "\u20b90.00",
+            "note": "Cancellation of null voucher VCH-002708"
+          },
+          {
+            "account": "Audit Memory Memo Ledger",
+            "type": "Credit",
+            "amount": "\u20b90.00",
+            "note": "Voucher marked Void in audit trail"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 98
+      }
+    },
+    {
+      "voucher_no": "VCH-003018",
+      "date": "05-09-2025",
+      "account_head": null,
+      "amount": 176635.33,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.28,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9176,635.33",
+            "note": "Escrow segregation for VCH-003018"
+          },
+          {
+            "account": "General Ledger",
+            "type": "Credit",
+            "amount": "\u20b9176,635.33",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-003476",
+      "date": "05-09-2025",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-003476"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-003561",
+      "date": "20-05-2025",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-003561)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-003755",
+      "date": "28-04-2025",
+      "account_head": "Nova Digital",
+      "amount": 824600.79,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 55.4,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9824,600.79",
+            "note": "Escrow segregation for VCH-003755"
+          },
+          {
+            "account": "Nova Digital",
+            "type": "Credit",
+            "amount": "\u20b9824,600.79",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-003835",
+      "date": "12-07-2025",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-003835"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-004057",
+      "date": "10-12-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-004057"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-004602",
+      "date": "22-02-2027",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-004602"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-004638",
+      "date": "29-03-2026",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-004638)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-004872",
+      "date": "28-02-2027",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-004872"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-005236",
+      "date": "20-12-2026",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-005236"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-005241",
+      "date": "13-12-2025",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-005241"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-005337",
+      "date": "22-09-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-005337"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-005427",
+      "date": "25-11-2026",
+      "account_head": "Apex Infotech",
+      "amount": 5266813.5,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b95,266,813.50) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (15.0 \u00d7 \u20b911,704.03 = \u20b9175,560.45) diverges from ledger entry (\u20b95,266,813.50). Adjust inflated variance of \u20b95,091,253.05.",
+        "entries": [
+          {
+            "account": "Apex Infotech",
+            "type": "Debit",
+            "amount": "\u20b95,091,253.05",
+            "note": "Valuation discrepancy elimination (VCH-005427)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b95,091,253.05",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-005996",
+      "date": "01-09-2025",
+      "account_head": "Nova Digital",
+      "amount": 824600.79,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 55.4,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9824,600.79",
+            "note": "Escrow segregation for VCH-005996"
+          },
+          {
+            "account": "Nova Digital",
+            "type": "Credit",
+            "amount": "\u20b9824,600.79",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-006106",
+      "date": "18-07-2026",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-006106"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-006221",
+      "date": "23-10-2025",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-006221"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-006381",
+      "date": "30-10-2025",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-006381"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-006408",
+      "date": "19-07-2026",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-006408"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-007014",
+      "date": "29-03-2026",
+      "account_head": "Metro Wholesale",
+      "amount": 59137.92,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 39.84,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b959,137.92",
+            "note": "Escrow segregation for VCH-007014"
+          },
+          {
+            "account": "Metro Wholesale",
+            "type": "Credit",
+            "amount": "\u20b959,137.92",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-007127",
+      "date": "09-01-2027",
+      "account_head": "Apex Infotech",
+      "amount": 16220.48,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.39,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b916,220.48",
+            "note": "Escrow segregation for VCH-007127"
+          },
+          {
+            "account": "Apex Infotech",
+            "type": "Credit",
+            "amount": "\u20b916,220.48",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-007224",
+      "date": "26-11-2025",
+      "account_head": "Metro Office Mart",
+      "amount": 390798.88,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 47.92,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9390,798.88",
+            "note": "Escrow segregation for VCH-007224"
+          },
+          {
+            "account": "Metro Office Mart",
+            "type": "Credit",
+            "amount": "\u20b9390,798.88",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-007742",
+      "date": "27-12-2025",
+      "account_head": "Metro Office Mart",
+      "amount": 390798.88,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 47.92,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9390,798.88",
+            "note": "Escrow segregation for VCH-007742"
+          },
+          {
+            "account": "Metro Office Mart",
+            "type": "Credit",
+            "amount": "\u20b9390,798.88",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-007745",
+      "date": "29-07-2025",
+      "account_head": "Metro Office Mart",
+      "amount": 390798.88,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 47.92,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9390,798.88",
+            "note": "Escrow segregation for VCH-007745"
+          },
+          {
+            "account": "Metro Office Mart",
+            "type": "Credit",
+            "amount": "\u20b9390,798.88",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-007869",
+      "date": "17-06-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-007869"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-008253",
+      "date": "30-04-2025",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-008253"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-008292",
+      "date": "04-10-2025",
+      "account_head": "Apex Infotech",
+      "amount": 16220.48,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.39,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b916,220.48",
+            "note": "Escrow segregation for VCH-008292"
+          },
+          {
+            "account": "Apex Infotech",
+            "type": "Credit",
+            "amount": "\u20b916,220.48",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-008366",
+      "date": "24-08-2026",
+      "account_head": null,
+      "amount": 176635.33,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.28,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9176,635.33",
+            "note": "Escrow segregation for VCH-008366"
+          },
+          {
+            "account": "General Ledger",
+            "type": "Credit",
+            "amount": "\u20b9176,635.33",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-008434",
+      "date": "09-08-2026",
+      "account_head": "Metro Office Mart",
+      "amount": 390798.88,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 47.92,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9390,798.88",
+            "note": "Escrow segregation for VCH-008434"
+          },
+          {
+            "account": "Metro Office Mart",
+            "type": "Credit",
+            "amount": "\u20b9390,798.88",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-010587",
+      "date": "13-01-2026",
+      "account_head": "Bright Retail",
+      "amount": 480384.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 67.24,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b9480,384.90) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (5.0 \u00d7 \u20b95,337.61 = \u20b926,688.05) diverges from ledger entry (\u20b9480,384.90). Adjust inflated variance of \u20b9453,696.85.",
+        "entries": [
+          {
+            "account": "Bright Retail",
+            "type": "Debit",
+            "amount": "\u20b9453,696.85",
+            "note": "Valuation discrepancy elimination (VCH-010587)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b9453,696.85",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-011068",
+      "date": "10-12-2025",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-011068"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-011195",
+      "date": "25-04-2025",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-011195"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-011527",
+      "date": "07-12-2025",
+      "account_head": "Metro Office Mart",
+      "amount": 390798.88,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 47.92,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9390,798.88",
+            "note": "Escrow segregation for VCH-011527"
+          },
+          {
+            "account": "Metro Office Mart",
+            "type": "Credit",
+            "amount": "\u20b9390,798.88",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-013691",
+      "date": "27-10-2026",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-013691"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-014364",
+      "date": "13-02-2026",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-014364)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-014416",
+      "date": "30-04-2025",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-014416)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-014438",
+      "date": "18-10-2025",
+      "account_head": "Apex Infotech",
+      "amount": 16220.48,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.39,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b916,220.48",
+            "note": "Escrow segregation for VCH-014438"
+          },
+          {
+            "account": "Apex Infotech",
+            "type": "Credit",
+            "amount": "\u20b916,220.48",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-014466",
+      "date": "22-08-2025",
+      "account_head": null,
+      "amount": 0.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 68.07,
+        "deterministic_score": 40.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 98,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Zero-Value Dummy Entry",
+          "description": "Suspicious zero-monetary consideration voucher recorded",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Cancel & Void Non-Financial Draft Voucher",
+        "statutory_rule": "SA 230 (Audit Documentation) & Rule 56 of CGST Rules",
+        "protocol": "Voucher VCH-014466 carries \u20b90 taxable amount and \u20b90 tax. Void voucher in Tally ERP with supervisory audit authorization.",
+        "entries": [
+          {
+            "account": "General Ledger",
+            "type": "Debit",
+            "amount": "\u20b90.00",
+            "note": "Cancellation of null voucher VCH-014466"
+          },
+          {
+            "account": "Audit Memory Memo Ledger",
+            "type": "Credit",
+            "amount": "\u20b90.00",
+            "note": "Voucher marked Void in audit trail"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 98
+      }
+    },
+    {
+      "voucher_no": "VCH-014557",
+      "date": "26-04-2026",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-014557)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-014651",
+      "date": "02-05-2026",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-014651"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-014753",
+      "date": "16-05-2025",
+      "account_head": "Metro Wholesale",
+      "amount": 59137.92,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 39.84,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b959,137.92",
+            "note": "Escrow segregation for VCH-014753"
+          },
+          {
+            "account": "Metro Wholesale",
+            "type": "Credit",
+            "amount": "\u20b959,137.92",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-014885",
+      "date": "15-12-2026",
+      "account_head": null,
+      "amount": 176635.33,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.28,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9176,635.33",
+            "note": "Escrow segregation for VCH-014885"
+          },
+          {
+            "account": "General Ledger",
+            "type": "Credit",
+            "amount": "\u20b9176,635.33",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-015658",
+      "date": "09-11-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-015658"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-015687",
+      "date": "28-02-2026",
+      "account_head": "Nova Digital",
+      "amount": 824600.79,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 55.4,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9824,600.79",
+            "note": "Escrow segregation for VCH-015687"
+          },
+          {
+            "account": "Nova Digital",
+            "type": "Credit",
+            "amount": "\u20b9824,600.79",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-015917",
+      "date": "31-01-2026",
+      "account_head": "Nova Digital",
+      "amount": 824600.79,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 55.4,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9824,600.79",
+            "note": "Escrow segregation for VCH-015917"
+          },
+          {
+            "account": "Nova Digital",
+            "type": "Credit",
+            "amount": "\u20b9824,600.79",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-016028",
+      "date": "20-12-2025",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-016028"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-016048",
+      "date": "27-01-2026",
+      "account_head": "Nova Digital",
+      "amount": 11360.82,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 46.46,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b911,360.82",
+            "note": "Escrow segregation for VCH-016048"
+          },
+          {
+            "account": "Nova Digital",
+            "type": "Credit",
+            "amount": "\u20b911,360.82",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-016182",
+      "date": "04-12-2025",
+      "account_head": "Nova Digital",
+      "amount": 3777282.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b93,777,282.00) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (3.0 \u00d7 \u20b950,363.76 = \u20b9151,091.28) diverges from ledger entry (\u20b93,777,282.00). Adjust inflated variance of \u20b93,626,190.72.",
+        "entries": [
+          {
+            "account": "Nova Digital",
+            "type": "Debit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Valuation discrepancy elimination (VCH-016182)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-016286",
+      "date": "24-10-2025",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-016286)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-017812",
+      "date": "22-09-2025",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-017812"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-018577",
+      "date": "03-03-2027",
+      "account_head": null,
+      "amount": 176635.33,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.28,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9176,635.33",
+            "note": "Escrow segregation for VCH-018577"
+          },
+          {
+            "account": "General Ledger",
+            "type": "Credit",
+            "amount": "\u20b9176,635.33",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-018621",
+      "date": "08-10-2026",
+      "account_head": null,
+      "amount": 176635.33,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.28,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9176,635.33",
+            "note": "Escrow segregation for VCH-018621"
+          },
+          {
+            "account": "General Ledger",
+            "type": "Credit",
+            "amount": "\u20b9176,635.33",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-018994",
+      "date": "27-05-2025",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-018994"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-019435",
+      "date": "10-07-2026",
+      "account_head": "Bright Retail",
+      "amount": 480384.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 67.24,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b9480,384.90) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (5.0 \u00d7 \u20b95,337.61 = \u20b926,688.05) diverges from ledger entry (\u20b9480,384.90). Adjust inflated variance of \u20b9453,696.85.",
+        "entries": [
+          {
+            "account": "Bright Retail",
+            "type": "Debit",
+            "amount": "\u20b9453,696.85",
+            "note": "Valuation discrepancy elimination (VCH-019435)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b9453,696.85",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-019837",
+      "date": "14-12-2025",
+      "account_head": "Nova Digital",
+      "amount": 824600.79,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 55.4,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9824,600.79",
+            "note": "Escrow segregation for VCH-019837"
+          },
+          {
+            "account": "Nova Digital",
+            "type": "Credit",
+            "amount": "\u20b9824,600.79",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-020103",
+      "date": "07-07-2026",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-020103"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-020487",
+      "date": "09-10-2026",
+      "account_head": "Prime Business Hub",
+      "amount": 1573928.4,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b91,573,928.40) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (6.0 \u00d7 \u20b913,116.07 = \u20b978,696.42) diverges from ledger entry (\u20b91,573,928.40). Adjust inflated variance of \u20b91,495,231.98.",
+        "entries": [
+          {
+            "account": "Prime Business Hub",
+            "type": "Debit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Valuation discrepancy elimination (VCH-020487)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b91,495,231.98",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-020494",
+      "date": "05-05-2025",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-020494"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-020795",
+      "date": "02-02-2026",
+      "account_head": "Nova Digital",
+      "amount": 3777282.0,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b93,777,282.00) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (3.0 \u00d7 \u20b950,363.76 = \u20b9151,091.28) diverges from ledger entry (\u20b93,777,282.00). Adjust inflated variance of \u20b93,626,190.72.",
+        "entries": [
+          {
+            "account": "Nova Digital",
+            "type": "Debit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Valuation discrepancy elimination (VCH-020795)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b93,626,190.72",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-021069",
+      "date": "28-09-2025",
+      "account_head": "Shree Computer Supplies",
+      "amount": 86336.9,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 56.91,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b986,336.90",
+            "note": "Escrow segregation for VCH-021069"
+          },
+          {
+            "account": "Shree Computer Supplies",
+            "type": "Credit",
+            "amount": "\u20b986,336.90",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-021584",
+      "date": "17-11-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-021584"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-021770",
+      "date": "14-01-2027",
+      "account_head": "Metro Wholesale",
+      "amount": 59137.92,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 39.84,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b959,137.92",
+            "note": "Escrow segregation for VCH-021770"
+          },
+          {
+            "account": "Metro Wholesale",
+            "type": "Credit",
+            "amount": "\u20b959,137.92",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-021791",
+      "date": "22-10-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-021791"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-022440",
+      "date": "14-10-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 761788.32,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 61.82,
+        "deterministic_score": 55.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 97,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Illegal Tax Liability",
+          "description": "Negative return qty (-12.0) paired with positive tax liability (+\u20b9171,402.38)",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Issue Formal Credit Note & Reverse Inverted GST ITC",
+        "statutory_rule": "Section 34 of CGST Act, 2017 & Ind AS 115 (Sales Returns)",
+        "protocol": "Negative quantity (-12.0) requires a Section 34 Tax Credit Note in GSTR-1 to cancel inverted tax credit balances.",
+        "entries": [
+          {
+            "account": "Sales Returns & Allowances Account",
+            "type": "Debit",
+            "amount": "\u20b9761,788.32",
+            "note": "Return adjustment for VCH-022440"
+          },
+          {
+            "account": "Trade Receivables (Western Tech Imports)",
+            "type": "Credit",
+            "amount": "\u20b9761,788.32",
+            "note": "Customer ledger credit balance adjustment"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 97
+      }
+    },
+    {
+      "voucher_no": "VCH-022496",
+      "date": "25-03-2026",
+      "account_head": "Metro Office Mart",
+      "amount": 390798.88,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 47.92,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9390,798.88",
+            "note": "Escrow segregation for VCH-022496"
+          },
+          {
+            "account": "Metro Office Mart",
+            "type": "Credit",
+            "amount": "\u20b9390,798.88",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-022790",
+      "date": "27-12-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-022790"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-023167",
+      "date": "27-12-2026",
+      "account_head": "Western Tech Imports",
+      "amount": 247115.03,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 45.87,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b9247,115.03",
+            "note": "Escrow segregation for VCH-023167"
+          },
+          {
+            "account": "Western Tech Imports",
+            "type": "Credit",
+            "amount": "\u20b9247,115.03",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-024269",
+      "date": "27-08-2025",
+      "account_head": "Apex Infotech",
+      "amount": 16220.48,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 44.39,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b916,220.48",
+            "note": "Escrow segregation for VCH-024269"
+          },
+          {
+            "account": "Apex Infotech",
+            "type": "Credit",
+            "amount": "\u20b916,220.48",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    },
+    {
+      "voucher_no": "VCH-024598",
+      "date": "26-08-2025",
+      "account_head": "Apex Infotech",
+      "amount": 5266813.5,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 70.36,
+        "deterministic_score": 45.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 96,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Tax Calculation Inconsistency",
+          "description": "Taxable Value (\u20b95,266,813.50) deviates from Qty \u00d7 Rate",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "Rectify Invoice Valuation & Eliminate Artificial Turnover Padding",
+        "statutory_rule": "Guidance Note on Audit of Revenue & Section 143(3) of Companies Act, 2013",
+        "protocol": "Actual valuation (15.0 \u00d7 \u20b911,704.03 = \u20b9175,560.45) diverges from ledger entry (\u20b95,266,813.50). Adjust inflated variance of \u20b95,091,253.05.",
+        "entries": [
+          {
+            "account": "Apex Infotech",
+            "type": "Debit",
+            "amount": "\u20b95,091,253.05",
+            "note": "Valuation discrepancy elimination (VCH-024598)"
+          },
+          {
+            "account": "Revenue Suspense / Valuation Adjustment Account",
+            "type": "Credit",
+            "amount": "\u20b95,091,253.05",
+            "note": "Adjustment of unauthorized booking"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 96
+      }
+    },
+    {
+      "voucher_no": "VCH-024865",
+      "date": "13-06-2025",
+      "account_head": "Nova Electronics",
+      "amount": 36471.27,
+      "combined_risk_score": 85.0,
+      "score_breakdown": {
+        "ml_score": 48.57,
+        "deterministic_score": 0.0,
+        "benford_score": 0.0
+      },
+      "severity": "Critical",
+      "ai_confidence": 93,
+      "risk_score_after_fix": 0,
+      "flags": [
+        {
+          "type": "Isolation Forest Outlier (ML)",
+          "description": "Unsupervised ML detected hidden multi-dimensional discrepancy.",
+          "severity": "Critical"
+        }
+      ],
+      "ai_suggested_fix": {
+        "action_title": "External 3rd-Party Balance Confirmation & Asset Inspection",
+        "statutory_rule": "SA 505 (External Confirmations) & CARO 2020 Clause 3",
+        "protocol": "Unsupervised machine learning detected an anomalous multidimensional vector. Obtain independent bank/vendor confirmation before closing audit working papers.",
+        "entries": [
+          {
+            "account": "Audit Escrow Suspense Account",
+            "type": "Debit",
+            "amount": "\u20b936,471.27",
+            "note": "Escrow segregation for VCH-024865"
+          },
+          {
+            "account": "Nova Electronics",
+            "type": "Credit",
+            "amount": "\u20b936,471.27",
+            "note": "Pending external third-party confirmation"
+          }
+        ],
+        "projected_risk_score": 0,
+        "confidence": 93
+      }
+    }
+  ]
+}
